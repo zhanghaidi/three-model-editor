@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark theme overrides */
+.ant-layout {
+  background: #1a1a1a !important;
+}
+
+.ant-layout-header {
+  background: #242424 !important;
+  border-bottom: 1px solid #333;
+  padding: 0 24px;
+  height: 64px;
+  line-height: 64px;
+}
+
+.ant-layout-sider {
+  background: #242424 !important;
+  border-right: 1px solid #333;
+}
+
+.scene-tree .ant-tree {
+  background: transparent;
+  color: #fff;
+}
+
+.scene-tree .ant-tree .ant-tree-node-content-wrapper {
+  color: #fff;
+}
+
+.scene-tree .ant-tree .ant-tree-node-content-wrapper:hover {
+  background-color: #1890ff22;
+}
+
+.scene-tree .ant-tree .ant-tree-node-selected {
+  background-color: #1890ff44 !important;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #242424;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
