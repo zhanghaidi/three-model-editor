@@ -44,7 +44,7 @@ export class ThreeEditorCore {
 
     // Initialize Transform Controls
     this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
-    this.scene.add(this.transformControls);
+    this.scene.add(this.transformControls as unknown as THREE.Object3D);
 
     // Link controls
     this.transformControls.addEventListener('dragging-changed', (event) => {
