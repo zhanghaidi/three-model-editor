@@ -1,21 +1,20 @@
 import { createHashRouter, Navigate } from 'react-router-dom';
 
-import { ThreeEditor } from '@/components/ThreeEditor/ThreeEditor';
+import Editor from '@/pages/editor';
 import Error404 from '@/pages/exception/404';
-import Home from '@/pages/home';
 function createRoot() {
   return createHashRouter([
     {
       path: '/',
-      element: <Navigate to="/home" />,
-    },
-    {
-      path: '/home',
-      element: <Home />,
+      element: <Navigate to="/editor" />,
     },
     {
       path: '/editor',
-      element: <ThreeEditor />,
+      element: <Editor />,
+    },
+    {
+      path: '/model',
+      element: <Error404 />,
     },
 
     {
