@@ -1,20 +1,24 @@
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider, App } from 'antd';
+import zhCN from 'antd/locale/zh_CN';
 
-import { ThreeEditor } from './components/ThreeEditor';
-
-function App() {
+import Router from './router';
+import 'dayjs/locale/zh-cn';
+import '@ant-design/v5-patch-for-react-19';
+const Root: React.FC = () => {
   return (
     <ConfigProvider
+      locale={zhCN}
       theme={{
-        algorithm: theme.darkAlgorithm,
         token: {
-          colorPrimary: '#1890ff',
+          colorPrimary: '#0063f2',
         },
       }}
     >
-      <ThreeEditor />
+      <App>
+        <Router />
+      </App>
     </ConfigProvider>
   );
-}
+};
 
-export default App;
+export default Root;

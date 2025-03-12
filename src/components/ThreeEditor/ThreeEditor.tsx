@@ -3,8 +3,7 @@ import { Cuboid as Cube, Cherry as Sphere, Move, RotateCw, Maximize } from 'luci
 import { useEffect, useRef, useState } from 'react';
 import { Vector3 } from 'three';
 
-import { ThreeEditorCore, SceneObject, TransformMode } from '../core/ThreeEditorCore';
-
+import { ThreeEditorCore, SceneObject, TransformMode } from './core/ThreeEditorCore';
 import { SceneHierarchy } from './SceneHierarchy';
 
 const { Header, Content, Sider } = Layout;

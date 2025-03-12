@@ -1,8 +1,9 @@
 import { Tree } from 'antd';
-import type { DataNode } from 'antd/es/tree';
 import { Cuboid as Cube, Cherry as Sphere, Sun, Grid as Grid3, LampFloor } from 'lucide-react';
 
-import { SceneObject } from '@/core/ThreeEditorCore';
+import { SceneObject } from '@/components/ThreeEditor/core/ThreeEditorCore';
+
+import type { DataNode } from 'antd/es/tree';
 
 interface SceneHierarchyProps {
   objects: SceneObject[];

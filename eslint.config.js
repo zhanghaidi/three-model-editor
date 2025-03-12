@@ -50,7 +50,7 @@ export default [
       'import/order': [
         'error',
         {
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
           pathGroups: [{ pattern: '@/**', group: 'internal', position: 'after' }],
           distinctGroup: true,
           'newlines-between': 'always',
