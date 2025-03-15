@@ -1,10 +1,8 @@
 import { resolve } from 'path';
 
 import react from '@vitejs/plugin-react-swc';
-import autoprefixer from 'autoprefixer';
 import { defineConfig, loadEnv } from 'vite';
 import svgr from 'vite-plugin-svgr';
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
   return {
@@ -19,14 +17,9 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       exclude: ['lucide-react'],
     },
-    css: {
-      postcss: {
-        plugins: [autoprefixer()],
-      },
-    },
-    // 配置路径别名
     resolve: {
       alias: {
+        // 使用 resolve 方法替代 path.resolve
         '@': resolve(__dirname, 'src'),
       },
     },

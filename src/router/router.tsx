@@ -6,7 +6,7 @@ import Error404 from '@/pages/exception/404';
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/editor" />,
+    element: <h1 className="text-black text-3xl font-bold underline ">Hello world!</h1>,
   },
   {
     path: '/editor',
