@@ -21,7 +21,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-
+    "forceConsistentCasingInFileNames": true,
     "baseUrl": ".", // 路径别名 添加后，再次输入@后，编译器会读取src目录下的资源
     "paths": {
       "@/*": ["./src/*"] //路径映射,配合别名使用

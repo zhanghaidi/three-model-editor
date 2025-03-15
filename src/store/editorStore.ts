@@ -6,7 +6,9 @@ interface EditorState {
   setSelectedObject: (obj: THREE.Object3D | null) => void;
 }
 
-export const useEditorStore = create<EditorState>((set) => ({
+const useEditorStore = create<EditorState>((set) => ({
   selectedObject: null,
   setSelectedObject: (obj) => set({ selectedObject: obj }),
 }));
+
+export default useEditorStore;

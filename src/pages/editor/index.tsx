@@ -1,14 +1,16 @@
+import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
-import Toolbar from '@/components/Toolbar';
-import ThreeEditor from '@/editor/ThreeEditor';
+import Viewport from '@/components/Viewport';
+
+import styles from './index.module.scss';
 
 export default function Editor() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Toolbar />
-      <div style={{ display: 'flex', flex: 1 }}>
+    <div className={styles.editor}>
+      <Header />
+      <div className={styles.main}>
+        <Viewport />
         <Sidebar />
-        <ThreeEditor />
       </div>
     </div>
   );

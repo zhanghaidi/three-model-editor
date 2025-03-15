@@ -47,6 +47,7 @@ export default [
       'react/prop-types': 'off', // ✅ TypeScript 代替 prop-types
       'react-hooks/rules-of-hooks': 'error', // ✅ 确保 Hooks 规则正确
       'react-hooks/exhaustive-deps': 'warn', // ✅ 确保 useEffect 依赖数组完整
+      'react/no-unknown-property': ['error', { ignore: ['object', 'intensity', 'position', 'distance', 'angle'] }], // 忽略对 'object' 的检查
       'import/order': [
         'error',
         {
