@@ -65,10 +65,6 @@ export default tseslint.config({
 本模板旨在提供一个快速、现代的 React + TypeScript 开发环境，同时通过 ESLint 保障代码质量。如果你有更严格的代码风格要求，可以在此基础上进一步扩展 ESLint 规则。
 
 ```
-
-```
-
-```
 three-model-editor
 ├─ 📁.husky
 │  ├─ 📁_
@@ -92,94 +88,80 @@ three-model-editor
 │  ├─ 📄commit-msg
 │  └─ 📄pre-commit
 ├─ 📁public
-│  └─ 📄vite.svg
+│  ├─ 📁draco
+│  │  ├─ 📄draco_decoder.js
+│  │  ├─ 📄draco_decoder.wasm
+│  │  ├─ 📄draco_encoder.js
+│  │  ├─ 📄draco_wasm_wrapper.js
+│  │  └─ 📄README.md
+│  ├─ 📁models
+│  │  └─ 📁glb
+│  │     ├─ 📄animal.glb
+│  │     ├─ 📄car.glb
+│  │     ├─ 📄girl.glb
+│  │     └─ 📄sun.glb
+│  ├─ 📁textures
+│  │  ├─ 📄bg1.hdr
+│  │  ├─ 📄bg2.hdr
+│  │  ├─ 📄bg3.hdr
+│  │  ├─ 📄view-1.png
+│  │  ├─ 📄view-10.png
+│  │  ├─ 📄view-11.png
+│  │  ├─ 📄view-12.png
+│  │  ├─ 📄view-13.png
+│  │  ├─ 📄view-14.png
+│  │  ├─ 📄view-15.png
+│  │  ├─ 📄view-16.png
+│  │  ├─ 📄view-2.png
+│  │  ├─ 📄view-3.png
+│  │  ├─ 📄view-4.png
+│  │  ├─ 📄view-5.png
+│  │  ├─ 📄view-6.png
+│  │  ├─ 📄view-7.png
+│  │  ├─ 📄view-8.png
+│  │  └─ 📄view-9.png
+│  └─ 📄react.svg
 ├─ 📁src
 │  ├─ 📁assets
-│  │  ├─ 📁styles
-│  │  │  ├─ 📄index.scss
-│  │  │  └─ 📄theme.scss
-│  │  └─ 📄react.svg
+│  │  └─ 📁styles
+│  │     ├─ 📄index.scss
+│  │     └─ 📄theme.scss
 │  ├─ 📁components
-│  │  ├─ 📄AssetManager.tsx
-│  │  ├─ 📄Console.tsx
-│  │  ├─ 📄Exporter.tsx
+│  │  ├─ 📄Header.module.scss
 │  │  ├─ 📄Header.tsx
-│  │  ├─ 📄History.tsx
-│  │  ├─ 📄Loader.tsx
-│  │  ├─ 📄Material.tsx
-│  │  ├─ 📄MaterialEditor.tsx
-│  │  ├─ 📄SceneGraph.tsx
-│  │  ├─ 📄Settings.tsx
+│  │  ├─ 📄Model.tsx
+│  │  ├─ 📄Sidebar.module.scss
 │  │  ├─ 📄Sidebar.tsx
-│  │  ├─ 📄Toolbar.tsx
-│  │  ├─ 📄TransformControls.tsx
+│  │  ├─ 📄SidebarAnimation.tsx
+│  │  ├─ 📄SidebarLight.tsx
+│  │  ├─ 📄Viewport.module.scss
 │  │  └─ 📄Viewport.tsx
 │  ├─ 📁editor
-│  │  ├─ 📄CameraManager.ts
-│  │  ├─ 📄Constants.ts
-│  │  ├─ 📄EditorManager.ts
-│  │  ├─ 📄EventManager.ts
-│  │  ├─ 📄ExportManager.ts
-│  │  ├─ 📄Helper.ts
-│  │  ├─ 📄HistoryManager.ts
-│  │  ├─ 📄ImportManager.ts
-│  │  ├─ 📄lightManager.ts
-│  │  ├─ 📄MaterialManager.ts
-│  │  ├─ 📄ObjectManager.ts
-│  │  ├─ 📄Renderer.ts
-│  │  ├─ 📄SaveLoadManager.ts
-│  │  ├─ 📄SceneManager.ts
-│  │  ├─ 📄SelectionManager.ts
-│  │  ├─ 📄ThreeEditor.tsx
-│  │  └─ 📄TransformManager.ts
 │  ├─ 📁hooks
-│  │  ├─ 📄useAssets.ts
-│  │  ├─ 📄useCamera.ts
-│  │  ├─ 📄useDragDrop.ts
-│  │  ├─ 📄useEditor.ts
-│  │  ├─ 📄useHistory.ts
-│  │  ├─ 📄useKeyboard.ts
-│  │  ├─ 📄useMouse.ts
-│  │  ├─ 📄useSaveLoad.ts
-│  │  ├─ 📄useSelection.ts
-│  │  └─ 📄useTransform.ts
 │  ├─ 📁pages
 │  │  ├─ 📁animation
 │  │  │  └─ 📄index.tsx
 │  │  ├─ 📁editor
+│  │  │  ├─ 📄index.module.scss
 │  │  │  └─ 📄index.tsx
 │  │  ├─ 📁exception
 │  │  │  ├─ 📄403.tsx
 │  │  │  ├─ 📄404.tsx
 │  │  │  └─ 📄500.tsx
-│  │  └─ 📁model
-│  │     └─ 📁index.tsx
+│  │  ├─ 📁model
+│  │  │  └─ 📁index.tsx
+│  │  └─ 📁preview
+│  │     └─ 📄index.tsx
 │  ├─ 📁router
 │  │  ├─ 📄index.tsx
 │  │  └─ 📄router.tsx
 │  ├─ 📁store
-│  │  ├─ 📄assetStore.ts
 │  │  ├─ 📄cameraStore.ts
-│  │  ├─ 📄editorStore.ts
-│  │  ├─ 📄historyStore.ts
-│  │  └─ 📄materialStore.ts
-│  ├─ 📁styles
-│  │  ├─ 📄editor.module.scss
-│  │  ├─ 📄materialEditor.module.scss
-│  │  ├─ 📄modal.module.scss
-│  │  ├─ 📄sidebar.module.scss
-│  │  ├─ 📄toolbar.module.scss
-│  │  └─ 📄viewport.module.scss
+│  │  ├─ 📄lightStore.ts
+│  │  ├─ 📄materialStore.ts
+│  │  └─ 📄sceneStore.ts
 │  ├─ 📁utils
-│  │  ├─ 📄eventUtils.ts
-│  │  ├─ 📄exportUtils.ts
-│  │  ├─ 📄fileUtils.ts
-│  │  ├─ 📄historyUtils.ts
-│  │  ├─ 📄importUtils.ts
-│  │  ├─ 📄index.ts
-│  │  ├─ 📄selectionUtils.ts
-│  │  ├─ 📄storageUtils.ts
-│  │  └─ 📄threeUtils.ts
+│  │  └─ 📄index.ts
 │  ├─ 📄App.tsx
 │  ├─ 📄main.tsx
 │  └─ 📄vite-env.d.ts
