@@ -12,7 +12,7 @@ const Viewport = () => {
   const { ambientLight, directionalLight, pointLight, spotLight } = useLightStore();
 
   return (
-    <div className="flex-1 flex justify-center items-center bg-gradient-to-b from-gray-400 to-gray-600 border-r border-gray-700">
+    <div className="absolute inset-0 flex justify-center items-center">
       <Canvas shadows camera={{ position: [3, 3, 3], fov: 50 }}>
         {/* 环境光 */}
         {ambientLight.enabled && <ambientLight intensity={ambientLight.intensity} color={ambientLight.color} />}

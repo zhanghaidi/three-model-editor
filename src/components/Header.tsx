@@ -3,7 +3,7 @@ import { Button, Space } from 'antd';
 
 const Header: React.FC = () => {
   return (
-    <header className="h-[50px] flex items-center px-5 bg-gray-900 text-white shadow-md border-b border-gray-700">
+    <header className="h-[50px] flex items-center px-5 bg-gray-900 text-white shadow-md border-b border-gray-700 fixed top-0 left-0 w-full z-10">
       <Space>
         <Button
           type="primary"

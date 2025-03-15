@@ -30,9 +30,26 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className="w-[320px] h-full bg-gray-100 text-gray-900 p-3 flex flex-col shadow-md border-l border-gray-300 overflow-y-auto">
+    <aside
+      className="fixed right-0 top-[50px] h-[calc(100vh-50px)] bg-gray-100 text-gray-900 shadow-md border-l border-gray-300 overflow-y-auto flex flex-col"
+      style={{ width: '300px' }} // 保持 Sidebar 宽度不变
+    >
       {/* Tabs 组件 */}
-      <Tabs defaultActiveKey="background" tabPosition="top" className="mb-3">
+      <Tabs
+        defaultActiveKey="background"
+        className="flex-1 flex flex-col"
+        tabBarGutter={8} // 让 Tab 之间的间距更小
+        style={{ padding: '0 8px' }}
+        tabBarStyle={{
+          margin: 0,
+          padding: 0,
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'nowrap',
+          backgroundColor: '#fff',
+          borderBottom: '1px solid #ddd',
+        }}
+      >
         <TabPane
           tab={
             <span className="flex items-center gap-1">
@@ -41,7 +58,7 @@ const Sidebar: React.FC = () => {
           }
           key="background"
         >
-          <Card title="背景设置" className="bg-white border border-gray-200 shadow-sm">
+          <Card className="bg-white border border-gray-200 shadow-sm p-2">
             <Button
               icon={<EnvironmentOutlined />}
               onClick={changeBackground}
@@ -73,7 +90,7 @@ const Sidebar: React.FC = () => {
           }
           key="material"
         >
-          <Card title="材质设置" className="bg-white border border-gray-200 shadow-sm">
+          <Card className="bg-white border border-gray-200 shadow-sm p-2">
             <p className="mb-2">颜色</p>
             <input type="color" className="w-full h-8 border rounded-md cursor-pointer" />
           </Card>
@@ -100,7 +117,7 @@ const Sidebar: React.FC = () => {
           }
           key="postprocess"
         >
-          <Card title="后期处理" className="bg-white border border-gray-200 shadow-sm">
+          <Card className="bg-white border border-gray-200 shadow-sm p-2">
             <p className="mb-2">曝光调整</p>
             <Slider min={0} max={2} step={0.1} defaultValue={1} />
           </Card>
