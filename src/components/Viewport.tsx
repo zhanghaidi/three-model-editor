@@ -2,18 +2,17 @@ import { OrbitControls, Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
 
-import { useLightStore } from '@/store/lightStore'; // 灯光状态
-import { useSceneStore } from '@/store/sceneStore'; // 背景状态
+import { useLightStore } from '@/store/lightStore';
+import { useSceneStore } from '@/store/sceneStore';
 
-import Model from './Model'; // 你的模型组件
-import styles from './Viewport.module.scss';
+import Model from './Model';
 
 const Viewport = () => {
   const { background } = useSceneStore();
-  const { ambientLight, directionalLight, pointLight, spotLight } = useLightStore(); // ✅ 正确获取灯光状态
+  const { ambientLight, directionalLight, pointLight, spotLight } = useLightStore();
 
   return (
-    <div className={styles.viewport}>
+    <div className="flex-1 flex justify-center items-center bg-gradient-to-b from-gray-400 to-gray-600 border-r border-gray-700">
       <Canvas shadows camera={{ position: [3, 3, 3], fov: 50 }}>
         {/* 环境光 */}
         {ambientLight.enabled && <ambientLight intensity={ambientLight.intensity} color={ambientLight.color} />}

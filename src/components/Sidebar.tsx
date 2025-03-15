@@ -10,7 +10,6 @@ import React, { useState } from 'react';
 
 import { useSceneStore } from '@/store/sceneStore';
 
-import styles from './Sidebar.module.scss';
 import AnimationControls from './SidebarAnimation';
 import SliderbarLight from './SidebarLight';
 
@@ -31,19 +30,23 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className={styles.sidebar}>
-      <Tabs defaultActiveKey="background" tabPosition="top" className={styles.tabs}>
-        {/* 背景 Tab */}
+    <aside className="w-[320px] h-full bg-gray-100 text-gray-900 p-3 flex flex-col shadow-md border-l border-gray-300 overflow-y-auto">
+      {/* Tabs 组件 */}
+      <Tabs defaultActiveKey="background" tabPosition="top" className="mb-3">
         <TabPane
           tab={
-            <span>
+            <span className="flex items-center gap-1">
               <EnvironmentOutlined /> 背景
             </span>
           }
           key="background"
         >
-          <Card className={styles.card} title="背景设置">
-            <Button icon={<EnvironmentOutlined />} onClick={changeBackground} className={styles.button}>
+          <Card title="背景设置" className="bg-white border border-gray-200 shadow-sm">
+            <Button
+              icon={<EnvironmentOutlined />}
+              onClick={changeBackground}
+              className="w-full bg-blue-500 text-white hover:bg-blue-600 transition"
+            >
               切换背景
             </Button>
           </Card>
@@ -52,7 +55,7 @@ const Sidebar: React.FC = () => {
         {/* 灯光 Tab */}
         <TabPane
           tab={
-            <span>
+            <span className="flex items-center gap-1">
               <BulbOutlined /> 灯光
             </span>
           }
@@ -64,22 +67,22 @@ const Sidebar: React.FC = () => {
         {/* 材质 Tab */}
         <TabPane
           tab={
-            <span>
+            <span className="flex items-center gap-1">
               <BgColorsOutlined /> 材质
             </span>
           }
           key="material"
         >
-          <Card className={styles.card} title="材质设置">
-            <p>颜色</p>
-            <input type="color" />
+          <Card title="材质设置" className="bg-white border border-gray-200 shadow-sm">
+            <p className="mb-2">颜色</p>
+            <input type="color" className="w-full h-8 border rounded-md cursor-pointer" />
           </Card>
         </TabPane>
 
         {/* 动画 Tab */}
         <TabPane
           tab={
-            <span>
+            <span className="flex items-center gap-1">
               <PlayCircleOutlined /> 动画
             </span>
           }
@@ -91,14 +94,14 @@ const Sidebar: React.FC = () => {
         {/* 后期处理 Tab */}
         <TabPane
           tab={
-            <span>
+            <span className="flex items-center gap-1">
               <CameraOutlined /> 后期
             </span>
           }
           key="postprocess"
         >
-          <Card className={styles.card} title="后期处理">
-            <p>曝光调整</p>
+          <Card title="后期处理" className="bg-white border border-gray-200 shadow-sm">
+            <p className="mb-2">曝光调整</p>
             <Slider min={0} max={2} step={0.1} defaultValue={1} />
           </Card>
         </TabPane>
