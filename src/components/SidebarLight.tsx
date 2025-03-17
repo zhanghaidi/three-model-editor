@@ -35,7 +35,7 @@ const SidebarLight: React.FC = () => {
           <Switch checked={ambientLight.enabled} onChange={setAmbientLight} />
         </label>
         <label className="block mt-2">强度</label>
-        <Slider min={0} max={2} step={0.1} value={ambientLight.intensity} onChange={setAmbientIntensity} />
+        <Slider min={0} max={10} step={0.1} value={ambientLight.intensity} onChange={setAmbientIntensity} />
         <label className="block mt-2">颜色</label>
         <input
           type="color"
@@ -52,7 +52,7 @@ const SidebarLight: React.FC = () => {
           <Switch checked={directionalLight.enabled} onChange={setDirectionalLight} />
         </label>
         <label className="block mt-2">强度</label>
-        <Slider min={0} max={2} step={0.1} value={directionalLight.intensity} onChange={setDirectionalIntensity} />
+        <Slider min={0} max={10} step={0.1} value={directionalLight.intensity} onChange={setDirectionalIntensity} />
         <label className="block mt-2">颜色</label>
         <input
           type="color"
@@ -69,7 +69,7 @@ const SidebarLight: React.FC = () => {
           <Switch checked={pointLight.enabled} onChange={setPointLight} />
         </label>
         <label className="block mt-2">强度</label>
-        <Slider min={0} max={2} step={0.1} value={pointLight.intensity} onChange={setPointIntensity} />
+        <Slider min={0} max={10} step={0.1} value={pointLight.intensity} onChange={setPointIntensity} />
         <label className="block mt-2">颜色</label>
         <input
           type="color"
@@ -78,7 +78,7 @@ const SidebarLight: React.FC = () => {
           className="w-full h-8 border rounded-md cursor-pointer"
         />
         <label className="block mt-2">距离</label>
-        <Slider min={1} max={20} step={0.5} value={pointLight.distance} onChange={setPointDistance} />
+        <Slider min={1} max={100} step={1} value={pointLight.distance} onChange={setPointDistance} />
       </div>
 
       {/* 聚光灯 */}
@@ -88,7 +88,7 @@ const SidebarLight: React.FC = () => {
           <Switch checked={spotLight.enabled} onChange={setSpotLight} />
         </label>
         <label className="block mt-2">强度</label>
-        <Slider min={0} max={2} step={0.1} value={spotLight.intensity} onChange={setSpotIntensity} />
+        <Slider min={0} max={10} step={0.1} value={spotLight.intensity} onChange={setSpotIntensity} />
         <label className="block mt-2">颜色</label>
         <input
           type="color"
@@ -97,7 +97,7 @@ const SidebarLight: React.FC = () => {
           className="w-full h-8 border rounded-md cursor-pointer"
         />
         <label className="block mt-2">距离</label>
-        <Slider min={1} max={20} step={0.5} value={spotLight.distance} onChange={setSpotDistance} />
+        <Slider min={1} max={100} step={1} value={spotLight.distance} onChange={setSpotDistance} />
         <label className="block mt-2">角度</label>
         <Slider min={0} max={Math.PI / 2} step={0.1} value={spotLight.angle} onChange={setSpotAngle} />
       </div>

@@ -2,13 +2,13 @@ import { OrbitControls, Environment } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
 
+import { useBackgroundStore } from '@/store/backgroundStore';
 import { useLightStore } from '@/store/lightStore';
-import { useSceneStore } from '@/store/sceneStore';
 
 import Model from './Model';
 
 const Viewport = () => {
-  const { background } = useSceneStore();
+  const { background, backgroundType, backgroundBlur } = useBackgroundStore();
   const { ambientLight, directionalLight, pointLight, spotLight } = useLightStore();
 
   return (
@@ -50,7 +50,15 @@ const Viewport = () => {
         {/* 3D 模型和环境 */}
         <Suspense fallback={null}>
           <Model />
-          <Environment files={background} background />
+          {backgroundType === 'color' ? (
+            <color attach="background" args={[background]} />
+          ) : (
+            // 确保 background 是有效的 .hdr, .exr 或 .png 文件路径
+            typeof background === 'string' &&
+            (background.endsWith('.hdr') || background.endsWith('.exr')) && (
+              <Environment files={background} background blur={backgroundBlur} />
+            )
+          )}
         </Suspense>
 
         {/* 轨道控制器 */}
