@@ -12,7 +12,7 @@ interface BackgroundState {
 }
 
 export const useBackgroundStore = create<BackgroundState>((set) => ({
-  background: '#ffffff',
+  background: '#3D3B3B',
   backgroundType: 'color',
   backgroundIntensity: 1,
   backgroundBlur: 0,

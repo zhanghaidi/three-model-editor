@@ -1,20 +1,19 @@
 import { OrbitControls, Environment, GizmoHelper, GizmoViewport } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 
 import { useBackgroundStore } from '@/store/backgroundStore';
 import { useLightStore } from '@/store/lightStore';
-import { useStatsStore } from '@/store/statsStore'; // ✅ 读取统计信息
+import { useSceneStore } from '@/store/sceneStore'; // ✅ 直接从 store 读取
+import { useStatsStore } from '@/store/statsStore';
 
 import Model from './Model';
 
-const Viewport = () => {
+const Viewport: React.FC = () => {
   const { background, backgroundType, backgroundBlur } = useBackgroundStore();
   const { ambientLight, directionalLight, pointLight, spotLight } = useLightStore();
-
-  const [showGrid, setShowGrid] = useState(true);
-  const [showHelpers, setShowHelpers] = useState(true);
-  const { objects, vertices, triangles, renderTime } = useStatsStore(); // ✅ 获取统计信息
+  const { objects, vertices, triangles, renderTime } = useStatsStore();
+  const { showGrid, showHelpers } = useSceneStore(); // ✅ 读取网格和辅助线状态
 
   return (
     <div className="absolute inset-0 flex justify-center items-center bg-gray-900">
@@ -59,29 +58,18 @@ const Viewport = () => {
           )}
         </Suspense>
 
-        {/* ✅ 网格 & 辅助线 */}
+        {/* ✅ 动态控制 网格 & 辅助线 */}
         {showGrid && <gridHelper args={[10, 10, 'gray', 'gray']} />}
         {showHelpers && <axesHelper args={[5]} />}
 
         {/* ✅ 坐标轴导航器 */}
-        <GizmoHelper alignment="bottom-right" margin={[380, 50]}>
-          <GizmoViewport />
+        <GizmoHelper alignment="bottom-right" margin={[50, 50]}>
+          <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="white" />
         </GizmoHelper>
 
         {/* ✅ 轨道控制器 */}
         <OrbitControls />
       </Canvas>
-
-      {/* ✅ 右上角 控制面板（网格 & 辅助线） */}
-      <div className="absolute top-4 right-80 bg-gray-800 p-3 rounded-lg text-white text-sm shadow-md opacity-90">
-        <h3 className="text-md font-semibold border-b pb-1 mb-2">显示设置</h3>
-        <label className="flex items-center gap-2">
-          <input type="checkbox" checked={showGrid} onChange={() => setShowGrid(!showGrid)} /> 显示网格
-        </label>
-        <label className="flex items-center gap-2 mt-2">
-          <input type="checkbox" checked={showHelpers} onChange={() => setShowHelpers(!showHelpers)} /> 显示辅助线
-        </label>
-      </div>
 
       {/* ✅ 统计数据（左下角） */}
       <div className="absolute left-4 bottom-4 bg-gray-800 p-3 rounded-md text-white text-sm shadow-md opacity-90">

@@ -2,10 +2,10 @@ import { PlayCircleOutlined, PauseOutlined } from '@ant-design/icons';
 import { Card, Button, Select } from 'antd';
 import React from 'react';
 
-import { useSceneStore } from '@/store/sceneStore';
+import { useAnimationStore } from '@/store/animationStore';
 
 const AnimationControls: React.FC = () => {
-  const { isPlaying, setIsPlaying, selectedAnimation, setSelectedAnimation, availableAnimations } = useSceneStore();
+  const { isPlaying, setIsPlaying, selectedAnimation, setSelectedAnimation, availableAnimations } = useAnimationStore();
 
   return (
     <Card className="card" title="动画控制">

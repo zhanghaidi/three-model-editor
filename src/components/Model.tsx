@@ -2,12 +2,12 @@ import { useGLTF, useAnimations } from '@react-three/drei';
 import React, { useEffect, useRef } from 'react';
 import { Group, Mesh, MeshStandardMaterial } from 'three';
 
+import { useAnimationStore } from '@/store/animationStore';
 import { useMaterialStore } from '@/store/materialStore';
-import { useSceneStore } from '@/store/sceneStore';
 import { useStatsStore } from '@/store/statsStore'; // ✅ 引入统计 store
 
 const Model: React.FC = () => {
-  const { selectedAnimation, isPlaying, setAvailableAnimations } = useSceneStore();
+  const { selectedAnimation, isPlaying, setAvailableAnimations } = useAnimationStore();
   const { setStats } = useStatsStore(); // ✅ 获取统计更新函数
   const modelRef = useRef<Group>(null);
 
