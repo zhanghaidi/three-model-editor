@@ -4,19 +4,19 @@ import Viewport from '@/components/Viewport';
 
 export default function Editor() {
   return (
-    <div className="h-screen w-screen relative">
-      {/* 顶部导航浮动 */}
-      <div className="absolute top-0 left-0 w-full z-10">
-        <Header />
-      </div>
+    <div className="relative h-screen w-screen bg-gray-900">
+      {/* ✅ 顶部导航 */}
+      <Header />
 
-      {/* 侧边栏浮动 */}
-      <div className="absolute top-[50px] right-0 h-[calc(100vh-50px)] z-10">
+      <div className="flex h-[calc(100vh-50px)]">
+        {/* ✅ 视口区域，占满整个可用空间 */}
+        <div className="flex-1">
+          <Viewport />
+        </div>
+
+        {/* ✅ 侧边栏，不遮挡视口 */}
         <Sidebar />
       </div>
-
-      {/* 视口区域全屏 */}
-      <Viewport />
     </div>
   );
 }
