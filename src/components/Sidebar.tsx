@@ -8,7 +8,7 @@ import {
 import { Card, Slider, Tabs } from 'antd';
 
 import BackgroundSettings from './BackgroundSettings';
-import MaterialPanel from './MaterialPanel';
+import MaterialList from './MaterialList';
 import AnimationControls from './SidebarAnimation';
 import SliderbarLight from './SidebarLight';
 
@@ -59,7 +59,7 @@ const Sidebar: React.FC = () => {
                 <BgColorsOutlined /> 材质
               </span>
             ),
-            children: <MaterialPanel />,
+            children: <MaterialList />,
           },
           {
             key: 'animation',
