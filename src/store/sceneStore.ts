@@ -9,7 +9,7 @@ interface SceneState {
 
 export const useSceneStore = create<SceneState>((set) => ({
   showGrid: true,
-  showHelpers: true,
+  showHelpers: false,
   toggleGrid: () => set((state) => ({ showGrid: !state.showGrid })),
   toggleHelpers: () => set((state) => ({ showHelpers: !state.showHelpers })),
 }));

@@ -63,7 +63,7 @@ const Viewport: React.FC = () => {
         {showHelpers && <axesHelper args={[5]} />}
 
         {/* ✅ 坐标轴导航器 */}
-        <GizmoHelper alignment="bottom-right" margin={[50, 50]}>
+        <GizmoHelper alignment="bottom-right" margin={[400, 60]}>
           <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="white" />
         </GizmoHelper>
 
