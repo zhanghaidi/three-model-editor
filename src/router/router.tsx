@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import Editor from '@/pages/editor';
 import Error404 from '@/pages/exception/404';
+import Model from '@/pages/model';
 
 export const router = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/model',
-    element: <Error404 />,
+    element: <Model />,
   },
 
   {

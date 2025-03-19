@@ -1,14 +1,13 @@
-import { EyeOutlined, FileOutlined, UploadOutlined, ExportOutlined, CheckOutlined } from '@ant-design/icons';
-import { Button, Dropdown, MenuProps, Space, Upload, message } from 'antd';
+import { EyeOutlined, FileOutlined, CheckOutlined } from '@ant-design/icons';
+import { Button, Dropdown, MenuProps, Space } from 'antd';
 
-import { useExportStore } from '@/store/exportStore'; // ✅ 引入新的导出 Store
-import { useModelStore } from '@/store/modelStore';
-import { useSceneStore } from '@/store/sceneStore';
+import { useEditorStore } from '@/store/editorStore';
+
+import Exporter from './Exporter';
+import Loader from './Loader';
 
 const Header: React.FC = () => {
-  const { showGrid, showHelpers, toggleGrid, toggleHelpers } = useSceneStore();
-  const { models, importModel } = useModelStore();
-  const { exportModel } = useExportStore(); // ✅ 使用导出 Store
+  const { showGrid, showHelpers, toggleGrid, toggleHelpers } = useEditorStore();
 
   // ✅ 视图菜单
   const viewMenu: MenuProps = {
@@ -43,51 +42,16 @@ const Header: React.FC = () => {
     ],
   };
 
-  // ✅ 导出模型菜单（新增 GLB）
-  const exportMenu: MenuProps = {
-    items: [
-      { key: 'gltf', label: '导出 GLTF (.gltf)', onClick: () => exportModel(models, 'gltf') },
-      { key: 'glb', label: '导出 GLB (.glb)', onClick: () => exportModel(models, 'glb') },
-      { key: 'obj', label: '导出 OBJ (.obj)', onClick: () => exportModel(models, 'obj') },
-      { key: 'stl', label: '导出 STL (.stl)', onClick: () => exportModel(models, 'stl') },
-    ],
-  };
-
   // ✅ 文件菜单
   const fileMenu: MenuProps = {
     items: [
       {
         key: 'import',
-        label: (
-          <Upload
-            showUploadList={false}
-            beforeUpload={(file) => {
-              const isModel = /\.(gltf|glb|obj|stl)$/i.test(file.name);
-              if (!isModel) {
-                message.error('只支持 GLTF, GLB, OBJ, STL 文件');
-                return false;
-              }
-              importModel(file);
-              return false;
-            }}
-          >
-            <span className="flex items-center gap-2">
-              <UploadOutlined />
-              导入模型
-            </span>
-          </Upload>
-        ),
+        label: <Loader />,
       },
       {
         key: 'export',
-        label: (
-          <Dropdown menu={exportMenu} trigger={['click']} placement="bottomRight">
-            <span className="flex items-center gap-2">
-              <ExportOutlined />
-              导出模型
-            </span>
-          </Dropdown>
-        ),
+        label: <Exporter />,
       },
     ],
   };

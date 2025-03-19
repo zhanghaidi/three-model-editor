@@ -1,24 +1,27 @@
-import { OrbitControls, Environment, GizmoHelper, GizmoViewport } from '@react-three/drei';
+import { OrbitControls, Environment, GizmoHelper, GizmoViewport, TransformControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { Suspense } from 'react';
+import { Suspense, useMemo, useRef } from 'react';
+import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 
 import { useBackgroundStore } from '@/store/backgroundStore';
+import { useEditorStore } from '@/store/editorStore';
 import { useLightStore } from '@/store/lightStore';
-import { useSceneStore } from '@/store/sceneStore'; // ✅ 直接从 store 读取
-import { useStatsStore } from '@/store/statsStore';
-
-import Model from './Model';
 
 const Viewport: React.FC = () => {
   const { background, backgroundType, backgroundBlur } = useBackgroundStore();
   const { ambientLight, directionalLight, pointLight, spotLight } = useLightStore();
-  const { objects, vertices, triangles, renderTime } = useStatsStore();
-  const { showGrid, showHelpers } = useSceneStore(); // ✅ 读取网格和辅助线状态
+  const { scene, selectedObject, setSelectedObject, transformMode, showGrid, showHelpers } = useEditorStore();
 
-  return (
-    <div className="absolute inset-0 flex justify-center items-center bg-gray-900">
-      <Canvas shadows camera={{ position: [3, 3, 3], fov: 50 }}>
-        {/* ✅ 添加光照 */}
+  const controlsRef = useRef<OrbitControlsImpl | null>(null);
+  const handleObjectClick = (event: any) => {
+    event.stopPropagation();
+    setSelectedObject(event.object);
+  };
+
+  // ✅ 使用 useMemo 避免不必要的渲染
+  const lights = useMemo(
+    () => (
+      <>
         {ambientLight.enabled && <ambientLight intensity={ambientLight.intensity} color={ambientLight.color} />}
         {directionalLight.enabled && (
           <directionalLight
@@ -44,40 +47,46 @@ const Viewport: React.FC = () => {
             angle={spotLight.angle}
           />
         )}
+      </>
+    ),
+    [ambientLight, directionalLight, pointLight, spotLight],
+  );
 
-        {/* ✅ 3D 模型 */}
+  return (
+    <div className="absolute inset-0 flex justify-center items-center bg-gray-900">
+      <Canvas camera={{ position: [5, 5, 5], fov: 50 }} onPointerMissed={() => setSelectedObject(null)}>
+        {/* ✅ 统一光照处理 */}
+        {lights}
+
+        {/* ✅ 背景处理 */}
         <Suspense fallback={null}>
-          <Model />
           {backgroundType === 'color' ? (
             <color attach="background" args={[background]} />
           ) : (
             typeof background === 'string' &&
-            (background.endsWith('.hdr') || background.endsWith('.exr')) && (
-              <Environment files={background} background blur={backgroundBlur} />
-            )
+            background.endsWith('.hdr') && <Environment files={background} background blur={backgroundBlur} />
           )}
         </Suspense>
 
-        {/* ✅ 动态控制 网格 & 辅助线 */}
-        {showGrid && <gridHelper args={[10, 10, 'gray', 'gray']} />}
-        {showHelpers && <axesHelper args={[5]} />}
+        {/* ✅ 3D 网格 & 辅助线 */}
+        {showGrid && <gridHelper args={[10, 10, 'gray', 'gray']} position={[0, 0, 0]} />}
+        {/* {showGrid && <gridHelper args={[10, 10, 'gray', 'gray']} />} */}
+        {showHelpers && <axesHelper />}
 
-        {/* ✅ 坐标轴导航器 */}
+        {/* ✅ 轨道控制器 */}
         <GizmoHelper alignment="bottom-right" margin={[400, 60]}>
           <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="white" />
         </GizmoHelper>
 
-        {/* ✅ 轨道控制器 */}
-        <OrbitControls />
-      </Canvas>
+        {/* ✅ 3D 模型 */}
+        <primitive object={scene} onClick={handleObjectClick} />
 
-      {/* ✅ 统计数据（左下角） */}
-      <div className="absolute left-4 bottom-4 bg-gray-800 p-3 rounded-md text-white text-sm shadow-md opacity-90">
-        <p>物体: {objects}</p>
-        <p>顶点: {vertices.toLocaleString()}</p>
-        <p>三角形: {triangles.toLocaleString()}</p>
-        <p>渲染时间: {renderTime.toFixed(2)} ms</p>
-      </div>
+        {/* ✅ 轨道控制 */}
+        <OrbitControls makeDefault ref={controlsRef} />
+
+        {/* ✅ 物体变换 */}
+        {selectedObject && <TransformControls object={selectedObject} mode={transformMode} />}
+      </Canvas>
     </div>
   );
 };

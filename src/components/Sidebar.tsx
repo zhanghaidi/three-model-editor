@@ -5,11 +5,12 @@ import {
   PlayCircleOutlined,
   CameraOutlined,
 } from '@ant-design/icons';
-import { Card, Slider, Tabs } from 'antd';
+import { Tabs } from 'antd';
 
+import AnimationControls from './AnimationControls';
 import BackgroundSettings from './BackgroundSettings';
 import MaterialList from './MaterialList';
-import AnimationControls from './SidebarAnimation';
+import Outliner from './Outliner';
 import SliderbarLight from './SidebarLight';
 
 const Sidebar: React.FC = () => {
@@ -74,15 +75,10 @@ const Sidebar: React.FC = () => {
             key: 'postprocess',
             label: (
               <span className="flex items-center gap-1">
-                <CameraOutlined /> 后期
+                <CameraOutlined /> 场景大纲
               </span>
             ),
-            children: (
-              <Card className="bg-gray-700 border border-gray-600 shadow-sm p-2 text-white">
-                <p className="mb-2">曝光调整</p>
-                <Slider min={0} max={2} step={0.1} defaultValue={1} />
-              </Card>
-            ),
+            children: <Outliner />,
           },
         ]}
       />

@@ -123,14 +123,20 @@ three-model-editor
 │  └─ 📄react.svg
 ├─ 📁src
 │  ├─ 📁components
+│  │  ├─ 📄AnimationControls.tsx
 │  │  ├─ 📄BackgroundSettings.tsx
+│  │  ├─ 📄FileControls.tsx
 │  │  ├─ 📄Header.tsx
 │  │  ├─ 📄MaterialList.tsx
 │  │  ├─ 📄Model.tsx
+│  │  ├─ 📄ModelItem.tsx
+│  │  ├─ 📄Outliner.tsx
 │  │  ├─ 📄Sidebar.tsx
 │  │  ├─ 📄SidebarAnimation.tsx
 │  │  ├─ 📄SidebarLight.tsx
+│  │  ├─ 📄TransformControls.tsx
 │  │  └─ 📄Viewport.tsx
+│  ├─ 📁hooks
 │  ├─ 📁pages
 │  │  ├─ 📁animation
 │  │  │  └─ 📄index.tsx
@@ -141,7 +147,7 @@ three-model-editor
 │  │  │  ├─ 📄404.tsx
 │  │  │  └─ 📄500.tsx
 │  │  ├─ 📁model
-│  │  │  └─ 📁index.tsx
+│  │  │  └─ 📄index.tsx
 │  │  └─ 📁preview
 │  │     └─ 📄index.tsx
 │  ├─ 📁router
@@ -151,10 +157,11 @@ three-model-editor
 │  │  ├─ 📄animationStore.ts
 │  │  ├─ 📄backgroundStore.ts
 │  │  ├─ 📄cameraStore.ts
+│  │  ├─ 📄editorStore.ts
+│  │  ├─ 📄exportStore.ts
 │  │  ├─ 📄lightStore.ts
 │  │  ├─ 📄materialStore.ts
 │  │  ├─ 📄modelStore.ts
-│  │  ├─ 📄sceneStore.ts
 │  │  └─ 📄statsStore.ts
 │  ├─ 📁utils
 │  │  └─ 📄index.ts
