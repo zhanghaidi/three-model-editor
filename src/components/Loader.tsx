@@ -10,7 +10,7 @@ import { useEditorStore } from '@/store/editorStore';
 
 const Loader: React.FC = () => {
   const { scene } = useEditorStore();
-  const { setAvailableAnimations, setSelectedAnimation } = useAnimationStore();
+  const { addModelAnimations } = useAnimationStore();
 
   // ✅ **直接修改 `Group` 的 name，而不是额外包一层**
   const addToScene = (model: THREE.Object3D, fileName: string) => {
@@ -38,13 +38,13 @@ const Loader: React.FC = () => {
       case 'glb':
         loader = new GLTFLoader();
         loader.load(url, (gltf) => {
+          console.log('gltf', gltf);
           if (gltf.scene) {
             addToScene(gltf.scene, fileName);
 
             // ✅ **存储动画**
             if (gltf.animations.length > 0) {
-              setAvailableAnimations(gltf.animations);
-              setSelectedAnimation(gltf.animations[0].name);
+              addModelAnimations(fileName, gltf.animations);
             }
           } else {
             message.error('GLTF 加载失败');
@@ -61,8 +61,7 @@ const Loader: React.FC = () => {
 
             // ✅ **存储动画**
             if ((fbx as any).animations?.length > 0) {
-              setAvailableAnimations((fbx as any).animations);
-              setSelectedAnimation((fbx as any).animations[0].name);
+              addModelAnimations(fileName, (fbx as any).animations);
             }
           } else {
             message.error('FBX 加载失败');

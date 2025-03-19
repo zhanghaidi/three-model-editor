@@ -8,37 +8,43 @@ import { useEditorStore } from '@/store/editorStore';
 
 const AnimationControls: React.FC = () => {
   const { scene } = useEditorStore();
-  const { isPlaying, setIsPlaying, selectedAnimation, setSelectedAnimation, availableAnimations, setMixer, clock } =
-    useAnimationStore();
+  const {
+    isPlaying,
+    setIsPlaying,
+    selectedAnimation,
+    setSelectedAnimation,
+    availableAnimations,
+    currentModel,
+    mixers,
+    setMixer,
+    clock,
+  } = useAnimationStore();
 
   const requestRef = useRef<number | null>(null);
-  const localMixer = useRef<THREE.AnimationMixer | null>(null); // ✅ 解决无限更新问题
 
   useEffect(() => {
-    if (!selectedAnimation || availableAnimations.length === 0) return;
+    if (!selectedAnimation || !currentModel) return;
 
-    const model = scene.children.find((obj) => obj instanceof THREE.Group);
+    const model = scene.getObjectByName(currentModel) as THREE.Group;
     if (!model) return;
 
-    // ✅ 仅在 `selectedAnimation` 变化时创建 `mixer`
-    if (!localMixer.current) {
-      localMixer.current = new THREE.AnimationMixer(model);
-      setMixer(localMixer.current);
+    let mixer = mixers[currentModel];
+    if (!mixer) {
+      mixer = new THREE.AnimationMixer(model);
+      setMixer(currentModel, mixer);
     }
 
-    // ✅ 获取动画片段
-    const clip = THREE.AnimationClip.findByName(availableAnimations, selectedAnimation);
+    const clips = availableAnimations[currentModel] || [];
+    const clip = clips.find((clip) => clip.name === selectedAnimation);
     if (!clip) return;
 
-    // ✅ 播放动画
-    const action = localMixer.current.clipAction(clip);
+    const action = mixer.clipAction(clip);
     action.reset().play();
 
-    // ✅ 动画循环更新
     const animate = () => {
       if (isPlaying) {
         const delta = clock.getDelta();
-        localMixer.current!.update(delta);
+        mixer.update(delta);
         requestRef.current = requestAnimationFrame(animate);
       }
     };
@@ -51,28 +57,49 @@ const AnimationControls: React.FC = () => {
     }
 
     return () => {
-      localMixer.current?.stopAllAction();
+      mixer.stopAllAction();
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [selectedAnimation, isPlaying, availableAnimations, scene.children, setMixer, clock]); // ✅ 只在 `selectedAnimation` / `isPlaying` 变化时更新
+  }, [selectedAnimation, isPlaying, availableAnimations, currentModel, scene, setMixer, clock, mixers]);
+
+  const modelNames = Object.keys(availableAnimations);
+  const animations = currentModel ? availableAnimations[currentModel] || [] : [];
 
   return (
     <Card className="card" title="动画控制">
-      {availableAnimations.length > 0 ? (
+      {modelNames.length > 0 ? (
         <>
-          <p>选择动画：</p>
+          <p>选择模型：</p>
           <Select
             style={{ width: '100%' }}
-            placeholder="选择动画"
-            value={selectedAnimation}
-            onChange={(value) => setSelectedAnimation(value)}
+            placeholder="选择模型"
+            value={currentModel}
+            onChange={(model) => setSelectedAnimation(model, animations[0]?.name)}
           >
-            {availableAnimations.map((clip) => (
-              <Select.Option key={clip.name} value={clip.name}>
-                {clip.name}
+            {modelNames.map((model) => (
+              <Select.Option key={model} value={model}>
+                {model}
               </Select.Option>
             ))}
           </Select>
+
+          {animations.length > 0 && (
+            <>
+              <p>选择动画：</p>
+              <Select
+                style={{ width: '100%' }}
+                placeholder="选择动画"
+                value={selectedAnimation}
+                onChange={(animation) => setSelectedAnimation(currentModel!, animation)}
+              >
+                {animations.map((clip) => (
+                  <Select.Option key={clip.name} value={clip.name}>
+                    {clip.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </>
+          )}
 
           <Button
             icon={isPlaying ? <PauseOutlined /> : <PlayCircleOutlined />}
@@ -84,7 +111,7 @@ const AnimationControls: React.FC = () => {
           </Button>
         </>
       ) : (
-        <p>当前模型没有动画</p>
+        <p>当前没有可播放的动画</p>
       )}
     </Card>
   );
