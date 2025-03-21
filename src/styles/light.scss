@@ -1,0 +1,13 @@
+:root[data-theme='light'] {
+  /* 字体颜色 */
+  --text-color: #101010;
+  --text-color-secondary: #999999;
+  --border-color: #e9e9e9;
+  --component-background: #ffffff;
+  --component-background-hover: #f8f8f8;
+  --component-background-active: #f0f0f0;
+  --child-component-background: #e9e9e9;
+  --input-background: var(--child-component-background);
+  --body-background: #f3f3f3;
+  --header-background: #ccc;
+}

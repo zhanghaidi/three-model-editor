@@ -1,89 +1,114 @@
-import {
-  EnvironmentOutlined,
-  BulbOutlined,
-  BgColorsOutlined,
-  PlayCircleOutlined,
-  CameraOutlined,
-} from '@ant-design/icons';
+import { BulbOutlined, CameraOutlined, SettingOutlined, TagsOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
+import { useRef } from 'react';
 
-import AnimationControls from './AnimationControls';
-import BackgroundSettings from './BackgroundSettings';
-import MaterialList from './MaterialList';
-import Outliner from './Outliner';
-import SliderbarLight from './SidebarLight';
+import { useUIStore } from '@/store/uiStore';
 
-const Sidebar: React.FC = () => {
+import SidebarProject from './SidebarProject';
+import SidebarProperties from './SidebarProperties';
+import SidebarScene from './SidebarScene';
+import SidebarSettings from './SidebarSettings';
+import SidebarTags from './SidebarTags';
+
+export default function Sidebar() {
+  const { sidebarWidth, setSidebarWidth } = useUIStore();
+  const isResizing = useRef(false);
+
+  const startResizing = () => {
+    isResizing.current = true;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none'; // ✅ 禁止文本选中
+
+    // ✅ 绑定事件
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', stopResizing);
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isResizing.current) return;
+    e.preventDefault(); // ✅ 防止默认拖拽手势
+
+    const newWidth = Math.max(250, Math.min(600, window.innerWidth - e.clientX));
+    setSidebarWidth(newWidth);
+  };
+
+  const stopResizing = () => {
+    setTimeout(() => (isResizing.current = false), 0); // ✅ 防止事件竞争问题
+    document.body.style.cursor = 'default';
+    document.body.style.userSelect = ''; // ✅ 允许文本选中
+
+    // ✅ 确保事件被移除
+    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('mouseup', stopResizing);
+  };
+
   return (
-    <aside
-      className="fixed right-0 top-[50px] h-[calc(100vh-50px)] bg-gray-800 text-white shadow-lg border-l border-gray-700 overflow-y-auto flex flex-col"
-      style={{ width: '300px' }}
-    >
-      <Tabs
-        defaultActiveKey="background"
-        className="flex-1 flex flex-col"
-        tabBarGutter={8}
-        style={{ padding: '0 8px' }}
-        tabBarStyle={{
-          margin: 0,
-          padding: '8px 0',
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexWrap: 'nowrap',
-          backgroundColor: '#2d2d2d',
-          borderBottom: '1px solid #444',
-          color: 'white',
-        }}
-        items={[
-          {
-            key: 'background',
-            label: (
-              <span className="flex items-center gap-1">
-                <EnvironmentOutlined /> 背景
-              </span>
-            ),
-            children: <BackgroundSettings />,
-          },
-          {
-            key: 'light',
-            label: (
-              <span className="flex items-center gap-1">
-                <BulbOutlined /> 灯光
-              </span>
-            ),
-            children: <SliderbarLight />,
-          },
-          {
-            key: 'material',
-            label: (
-              <span className="flex items-center gap-1">
-                <BgColorsOutlined /> 材质
-              </span>
-            ),
-            children: <MaterialList />,
-          },
-          {
-            key: 'animation',
-            label: (
-              <span className="flex items-center gap-1">
-                <PlayCircleOutlined /> 动画
-              </span>
-            ),
-            children: <AnimationControls />,
-          },
-          {
-            key: 'postprocess',
-            label: (
-              <span className="flex items-center gap-1">
-                <CameraOutlined /> 场景大纲
-              </span>
-            ),
-            children: <Outliner />,
-          },
-        ]}
-      />
-    </aside>
-  );
-};
+    <div className="sidebar" style={{ width: `${sidebarWidth}px` }}>
+      {/* ✅ 拖拽调整宽度 */}
+      <div className="resize-handle" onMouseDown={startResizing}></div>
+      <div>
+        <Tabs
+          defaultActiveKey="scene"
+          type="card"
+          items={[
+            {
+              key: 'scene',
+              label: (
+                <>
+                  <CameraOutlined /> 场景
+                </>
+              ),
+              children: (
+                <div className="sidebar-content">
+                  <SidebarScene />
+                  <SidebarProperties />
+                </div>
+              ),
+            },
+            {
+              key: 'tags',
+              label: (
+                <>
+                  <TagsOutlined /> 标签
+                </>
+              ),
+              children: (
+                <div className="sidebar-content">
+                  <SidebarTags />
+                </div>
+              ),
+            },
 
-export default Sidebar;
+            {
+              key: 'project',
+              label: (
+                <>
+                  <BulbOutlined /> 项目
+                </>
+              ),
+              children: (
+                <div className="sidebar-content">
+                  <SidebarProject />
+                </div>
+              ),
+            },
+            {
+              key: 'settings',
+              label: (
+                <>
+                  <SettingOutlined />
+                  设置
+                </>
+              ),
+              children: (
+                <div className="sidebar-content">
+                  <SidebarSettings />
+                </div>
+              ),
+            },
+          ]}
+        />
+      </div>
+    </div>
+  );
+}

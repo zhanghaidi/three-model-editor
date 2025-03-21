@@ -1,0 +1,12 @@
+:root[data-theme='dark'] {
+  --text-color: var(--white);
+  --text-color-secondary: #cccccc;
+  --border-color: #4d4f54;
+  --component-background: #3c3d42;
+  --component-background-hover: #3c3d42;
+  --component-background-active: #3c3d42;
+  --child-component-background: #4d4f54;
+  --input-background: var(--child-component-background);
+  --body-background: #292a2f;
+  --header-background: #292a2f;
+}

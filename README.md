@@ -64,6 +64,15 @@ export default tseslint.config({
 
 本模板旨在提供一个快速、现代的 React + TypeScript 开发环境，同时通过 ESLint 保障代码质量。如果你有更严格的代码风格要求，可以在此基础上进一步扩展 ESLint 规则。
 
+MenuBar.tsx
+Sidebar.tsx
+SidebarScene.tsx
+SidebarProject.tsx
+SidebarSettings.tsx
+SidebarProperties.tsx
+Toorbar.tsx
+Viewport.tsx
+
 ```
 three-model-editor
 ├─ 📁.husky
@@ -123,18 +132,19 @@ three-model-editor
 │  └─ 📄react.svg
 ├─ 📁src
 │  ├─ 📁components
-│  │  ├─ 📄AnimationControls.tsx
-│  │  ├─ 📄BackgroundSettings.tsx
-│  │  ├─ 📄FileControls.tsx
-│  │  ├─ 📄Header.tsx
-│  │  ├─ 📄MaterialList.tsx
-│  │  ├─ 📄Model.tsx
+│  │  ├─ 📄Loader.ts
+│  │  ├─ 📄Menubar.tsx
+│  │  ├─ 📄MenubarFile.tsx
+│  │  ├─ 📄MenubarView.tsx
 │  │  ├─ 📄ModelItem.tsx
 │  │  ├─ 📄Outliner.tsx
 │  │  ├─ 📄Sidebar.tsx
-│  │  ├─ 📄SidebarAnimation.tsx
 │  │  ├─ 📄SidebarLight.tsx
-│  │  ├─ 📄TransformControls.tsx
+│  │  ├─ 📄SidebarProject.tsx
+│  │  ├─ 📄SidebarProperties.tsx
+│  │  ├─ 📄SidebarScene.tsx
+│  │  ├─ 📄SidebarSettings.tsx
+│  │  ├─ 📄Toolbar.tsx
 │  │  └─ 📄Viewport.tsx
 │  ├─ 📁hooks
 │  ├─ 📁pages
@@ -156,12 +166,9 @@ three-model-editor
 │  ├─ 📁store
 │  │  ├─ 📄animationStore.ts
 │  │  ├─ 📄backgroundStore.ts
-│  │  ├─ 📄cameraStore.ts
 │  │  ├─ 📄editorStore.ts
-│  │  ├─ 📄exportStore.ts
 │  │  ├─ 📄lightStore.ts
 │  │  ├─ 📄materialStore.ts
-│  │  ├─ 📄modelStore.ts
 │  │  └─ 📄statsStore.ts
 │  ├─ 📁utils
 │  │  └─ 📄index.ts

@@ -53,7 +53,7 @@ const Viewport: React.FC = () => {
   );
 
   return (
-    <div className="absolute inset-0 flex justify-center items-center bg-gray-900">
+    <div className="viewport">
       <Canvas camera={{ position: [5, 5, 5], fov: 50 }} onPointerMissed={() => setSelectedObject(null)}>
         {/* ✅ 统一光照处理 */}
         {lights}

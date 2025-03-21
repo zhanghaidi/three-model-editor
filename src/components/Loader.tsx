@@ -1,5 +1,4 @@
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, message, Upload } from 'antd';
+import { message } from 'antd';
 import * as THREE from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -8,7 +7,7 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { useAnimationStore } from '@/store/animationStore';
 import { useEditorStore } from '@/store/editorStore';
 
-const Loader: React.FC = () => {
+export default function Loader() {
   const { scene } = useEditorStore();
   const { addModelAnimations } = useAnimationStore();
 
@@ -38,7 +37,6 @@ const Loader: React.FC = () => {
       case 'glb':
         loader = new GLTFLoader();
         loader.load(url, (gltf) => {
-          console.log('gltf', gltf);
           if (gltf.scene) {
             addToScene(gltf.scene, fileName);
 
@@ -86,21 +84,9 @@ const Loader: React.FC = () => {
         message.error('不支持的文件格式');
     }
   };
-
   return (
-    <div className="flex gap-2">
-      <Upload
-        accept=".gltf,.glb,.obj,.fbx"
-        showUploadList={false} // ✅ 隐藏上传列表，避免 UI 变更
-        beforeUpload={(file) => {
-          handleUpload(file);
-          return false;
-        }}
-      >
-        <Button icon={<UploadOutlined />}>上传模型</Button>
-      </Upload>
+    <div>
+      <input type="file" onChange={(e) => handleUpload(e.target.files![0])} />
     </div>
   );
-};
-
-export default Loader;
+}

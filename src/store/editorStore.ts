@@ -3,6 +3,8 @@ import { create } from 'zustand';
 
 interface EditorState {
   scene: THREE.Scene;
+  camera: THREE.PerspectiveCamera | null;
+  renderer: THREE.WebGLRenderer | null;
   selectedObject: THREE.Object3D | null;
   transformMode: 'translate' | 'rotate' | 'scale';
   showGrid: boolean;
@@ -16,6 +18,8 @@ interface EditorState {
 
 export const useEditorStore = create<EditorState>((set) => ({
   scene: new THREE.Scene(),
+  camera: null,
+  renderer: null,
   selectedObject: null,
   transformMode: 'translate',
   showGrid: true,
@@ -30,4 +34,6 @@ export const useEditorStore = create<EditorState>((set) => ({
 
   setSelectedObject: (object) => set({ selectedObject: object }),
   setTransformMode: (mode) => set({ transformMode: mode }),
+  setRenderer: (renderer: any) => set({ renderer }),
+  setCamera: (camera: any) => set({ camera }),
 }));
