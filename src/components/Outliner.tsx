@@ -49,16 +49,7 @@ const Outliner = () => {
   const treeData = [generateTree(scene)];
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '600px',
-        overflowY: 'auto',
-        overflowX: 'auto',
-        whiteSpace: 'nowrap',
-        border: '1px solid #333',
-      }}
-    >
+    <div className="Outliner">
       <Tree
         treeData={treeData}
         defaultExpandAll={false} // ✅ **默认折叠**

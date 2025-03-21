@@ -25,6 +25,7 @@ body {
   font-size: 14px;
   margin: 0;
   overflow: hidden;
+  touch-action: none; /* ✅ 让拖拽更顺滑 */
 }
 
 .editor {
@@ -63,46 +64,57 @@ body {
   }
 }
 
-/* ✅ Sidebar */
+/* ✅ 视图区 */
+.viewport {
+  flex-grow: 1;
+  height: 100vh;
+  transition: width 0.2s ease-out;
+}
+
+/* ✅ Sidebar 基本样式 */
 .sidebar {
   position: relative;
   height: 100vh;
   background-color: var(--child-component-background);
   border-left: 1px solid var(--border-color);
   transition: width 0.2s ease-in-out; /* ✅ 让拖拽更丝滑 */
-  user-select: none; /* ✅ 让 Sidebar 内的内容在拖拽时不可选中 */
 }
 
-/* ✅ 拖拽条 */
+/* ✅ 默认隐藏拖拽条 */
 .resize-handle {
   position: absolute;
   left: 0;
   top: 0;
-  width: 8px;
+  width: 5px;
   height: 100%;
   cursor: ew-resize;
-  background: rgba(255, 255, 255, 0.2);
-  transition: background 0.2s;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.4);
-  }
-
-  &:active {
-    background: rgba(0, 136, 255, 0.6);
-  }
+  background: rgba(0, 136, 255, 0.2);
+  transition: background 0.2s ease-in-out, opacity 0.2s;
+  opacity: 0; /* 默认不可见 */
 }
-.sidebar-content {
-  padding: 0px, 10px;
-  background: var(--component-background);
+
+/* ✅ 仅在鼠标悬停 `resize-handle` 时显示 */
+.resize-handle:hover {
+  opacity: 1;
+  background: rgba(0, 136, 255, 0.8);
+}
+
+/* ✅ 拖拽时始终可见 */
+body.dragging .resize-handle {
+  opacity: 1;
+  background: rgba(0, 136, 255, 1);
+}
+
+/* ✅ 侧边栏 Tabs */
+.sidebar-tabs {
+  padding: 0 8px; // ✅ 用 padding 替换 margin 以保持结构稳定
 }
 
 .Outliner {
   color: #444;
   background-color: #fff;
-  padding: 0;
   width: 100%;
-  height: 180px;
+  height: 350px;
   font-size: 12px;
   cursor: default;
   overflow: auto;
@@ -110,25 +122,15 @@ body {
   outline: none !important;
 }
 
-.Outliner .option {
-  padding: 4px;
-  color: #666;
-  white-space: nowrap;
-}
-
-.Outliner .option:hover {
-  background-color: rgba(0, 0, 0, 0.02);
-}
-
-.Outliner .option.active {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-/* ✅ 视图区 */
-.viewport {
-  flex-grow: 1;
-  height: 100vh;
-  transition: width 0.2s ease-out;
+.sidebar-properties {
+  padding: 10px;
+  h3 {
+    margin-bottom: 10px;
+  }
+  .property-row {
+    display: flex;
+    gap: 8px;
+  }
 }
 
 /* ✅ 工具栏 */
