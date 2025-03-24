@@ -1,4 +1,4 @@
-import { BulbOutlined, CameraOutlined, SettingOutlined, TagsOutlined } from '@ant-design/icons';
+import { BulbOutlined, EnvironmentOutlined, SettingOutlined, TagsOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 
 import { useSidebarResize } from '@/hooks/useSidebarResize';
@@ -26,7 +26,7 @@ export default function Sidebar() {
             key: 'scene',
             label: (
               <>
-                <CameraOutlined /> 场景
+                <EnvironmentOutlined /> 场景
               </>
             ),
             children: (

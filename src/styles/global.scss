@@ -25,7 +25,6 @@ body {
   font-size: 14px;
   margin: 0;
   overflow: hidden;
-  touch-action: none; /* ✅ 让拖拽更顺滑 */
 }
 
 .editor {
@@ -110,27 +109,44 @@ body.dragging .resize-handle {
   padding: 0 8px; // ✅ 用 padding 替换 margin 以保持结构稳定
 }
 
-.Outliner {
-  color: #444;
-  background-color: #fff;
+.scene-list {
   width: 100%;
   height: 350px;
-  font-size: 12px;
-  cursor: default;
+  overflow-y: auto;
+  background-color: #fff;
+  padding: 0px;
+  margin: 0px;
   overflow: auto;
   resize: vertical;
-  outline: none !important;
+  cursor: default;
+}
+
+.scene-list .selected {
+  background: rgba(0, 136, 255, 0.1); // ✅ 选中状态高亮
+}
+
+/* ✅ 树结构：连接父子节点 */
+.tree-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.2); /* ✅ 线的颜色 */
+}
+
+/* ✅ 组展开时，显示横向连接线 */
+.tree-line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  width: 8px;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-properties {
   padding: 10px;
-  h3 {
-    margin-bottom: 10px;
-  }
-  .property-row {
-    display: flex;
-    gap: 8px;
-  }
 }
 
 /* ✅ 工具栏 */

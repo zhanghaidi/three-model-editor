@@ -1,4 +1,5 @@
-import { message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, message, Upload } from 'antd';
 import * as THREE from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -13,80 +14,81 @@ export default function Loader() {
 
   // ✅ **直接修改 `Group` 的 name，而不是额外包一层**
   const addToScene = (model: THREE.Object3D, fileName: string) => {
-    // ✅ 如果 `model` 是 `Group`，直接改 `name`，避免包裹额外 `Group`
     if (model instanceof THREE.Group) {
       model.name = fileName;
       scene.add(model);
     } else {
-      // ✅ 如果 `model` 不是 `Group`，仍然包一层 `Group`
       const group = new THREE.Group();
       group.name = fileName;
       group.add(model);
       scene.add(group);
     }
+    // ✅ **触发 React 重新渲染**
+    useEditorStore.setState((state) => ({
+      scene: state.scene, // ✅ 让 Zustand 监听到 `scene` 变化
+    }));
   };
 
-  const handleUpload = (file: File) => {
-    const fileName = file.name; // ✅ **包含扩展名**
+  // ✅ **处理文件导入**
+  const handleUpload = async (file: File) => {
+    const fileName = file.name;
     const ext = file.name.split('.').pop()?.toLowerCase();
     const url = URL.createObjectURL(file);
 
-    let loader;
-    switch (ext) {
-      case 'gltf':
-      case 'glb':
-        loader = new GLTFLoader();
-        loader.load(url, (gltf) => {
-          if (gltf.scene) {
-            addToScene(gltf.scene, fileName);
+    try {
+      let model: THREE.Object3D | null = null;
 
-            // ✅ **存储动画**
-            if (gltf.animations.length > 0) {
-              addModelAnimations(fileName, gltf.animations);
-            }
-          } else {
-            message.error('GLTF 加载失败');
-          }
-          URL.revokeObjectURL(url);
-        });
-        break;
+      if (ext === 'gltf' || ext === 'glb') {
+        const loader = new GLTFLoader();
+        const gltf = await loader.loadAsync(url);
+        model = gltf.scene;
 
-      case 'fbx':
-        loader = new FBXLoader();
-        loader.load(url, (fbx) => {
-          if (fbx) {
-            addToScene(fbx, fileName);
+        // ✅ 存储动画
+        if (gltf.animations.length > 0) {
+          addModelAnimations(fileName, gltf.animations);
+        }
+      } else if (ext === 'fbx') {
+        const loader = new FBXLoader();
+        model = await loader.loadAsync(url);
 
-            // ✅ **存储动画**
-            if ((fbx as any).animations?.length > 0) {
-              addModelAnimations(fileName, (fbx as any).animations);
-            }
-          } else {
-            message.error('FBX 加载失败');
-          }
-          URL.revokeObjectURL(url);
-        });
-        break;
-
-      case 'obj':
-        loader = new OBJLoader();
-        loader.load(url, (obj) => {
-          if (obj) {
-            addToScene(obj, fileName);
-          } else {
-            message.error('OBJ 加载失败');
-          }
-          URL.revokeObjectURL(url);
-        });
-        break;
-
-      default:
+        // ✅ 存储动画
+        if ((model as any).animations?.length > 0) {
+          addModelAnimations(fileName, (model as any).animations);
+        }
+      } else if (ext === 'obj') {
+        const loader = new OBJLoader();
+        model = await loader.loadAsync(url);
+      } else {
         message.error('不支持的文件格式');
+        return;
+      }
+
+      if (model) {
+        addToScene(model, fileName);
+        message.success(`成功导入 ${fileName}`);
+      } else {
+        throw new Error('解析失败');
+      }
+    } catch (error) {
+      console.error('导入失败', error);
+      message.error('模型导入失败');
+    } finally {
+      URL.revokeObjectURL(url);
     }
   };
+
   return (
-    <div>
-      <input type="file" onChange={(e) => handleUpload(e.target.files![0])} />
-    </div>
+    <Upload
+      accept=".gltf,.glb,.fbx,.obj"
+      beforeUpload={(file) => {
+        handleUpload(file);
+        return false; // ❌ 阻止默认上传
+      }}
+      showUploadList={false}
+    >
+      <Button type="text" icon={<UploadOutlined />}>
+        导入模型
+      </Button>
+    </Upload>
   );
 }

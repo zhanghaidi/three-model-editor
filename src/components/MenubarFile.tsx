@@ -2,6 +2,7 @@ import { FileOutlined } from '@ant-design/icons';
 import { Button, Dropdown, MenuProps } from 'antd';
 
 import Exporter from './Exporter';
+import Loader from './Loader';
 
 const MenubarFile: React.FC = () => {
   // ✅ 文件菜单
@@ -9,7 +10,7 @@ const MenubarFile: React.FC = () => {
     items: [
       {
         key: 'import',
-        label: <Button icon={<FileOutlined />}>导入</Button>,
+        label: <Loader />,
       },
       {
         key: 'export',

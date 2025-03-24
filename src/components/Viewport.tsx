@@ -1,11 +1,39 @@
 import { OrbitControls, Environment, GizmoHelper, GizmoViewport, TransformControls } from '@react-three/drei';
-import { Canvas } from '@react-three/fiber';
-import { Suspense, useMemo, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Suspense, useEffect, useMemo, useRef } from 'react';
+import * as THREE from 'three';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 
 import { useBackgroundStore } from '@/store/backgroundStore';
 import { useEditorStore } from '@/store/editorStore';
 import { useLightStore } from '@/store/lightStore';
+import { useScriptStore } from '@/store/scriptStore';
+
+// ✅ **把 `useFrame` 移到 `ScriptRunner` 组件内部**
+const ScriptRunner = () => {
+  const { scripts, executeScripts } = useScriptStore();
+  const { scene } = useEditorStore();
+  const scriptObjectsRef = useRef<Record<string, THREE.Object3D>>({});
+
+  // ✅ **缓存脚本对象列表**
+  useEffect(() => {
+    const objects: Record<string, THREE.Object3D> = {};
+    Object.keys(scripts).forEach((uuid) => {
+      const obj = scene.getObjectByProperty('uuid', uuid) as THREE.Object3D;
+      if (obj) objects[uuid] = obj;
+    });
+    scriptObjectsRef.current = objects;
+  }, [scripts, scene]);
+
+  // ✅ **执行脚本（每帧）**
+  useFrame((_state, delta) => {
+    Object.entries(scriptObjectsRef.current).forEach(([uuid]) => {
+      executeScripts(uuid, 'update', delta);
+    });
+  });
+
+  return null; // 🚀 `ScriptRunner` 只是个逻辑组件，不渲染任何 UI
+};
 
 const Viewport: React.FC = () => {
   const { background, backgroundType, backgroundBlur } = useBackgroundStore();
@@ -13,12 +41,24 @@ const Viewport: React.FC = () => {
   const { scene, selectedObject, setSelectedObject, transformMode, showGrid, showHelpers } = useEditorStore();
 
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
-  const handleObjectClick = (event: any) => {
-    event.stopPropagation();
-    setSelectedObject(event.object);
-  };
+  const mainCamera = useRef<THREE.PerspectiveCamera | null>(null);
 
-  // ✅ 使用 useMemo 避免不必要的渲染
+  // ✅ **初始化主相机（仅运行一次）**
+  useEffect(() => {
+    let camera = scene.children.find((obj) => obj instanceof THREE.PerspectiveCamera) as THREE.PerspectiveCamera;
+
+    if (!camera) {
+      camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.name = '相机';
+      camera.position.set(5, 5, 5);
+      scene.add(camera);
+    }
+
+    mainCamera.current = camera;
+    setSelectedObject(camera);
+  }, [scene, setSelectedObject]);
+
+  // ✅ **光照优化**
   const lights = useMemo(
     () => (
       <>
@@ -52,10 +92,21 @@ const Viewport: React.FC = () => {
     [ambientLight, directionalLight, pointLight, spotLight],
   );
 
+  const handleObjectClick = (event: any) => {
+    event.stopPropagation();
+    setSelectedObject(event.object);
+  };
+
   return (
     <div className="viewport">
-      <Canvas camera={{ position: [5, 5, 5], fov: 50 }} onPointerMissed={() => setSelectedObject(null)}>
-        {/* ✅ 统一光照处理 */}
+      <Canvas
+        camera={mainCamera.current ?? { position: [5, 5, 5], fov: 50 }}
+        onPointerMissed={() => setSelectedObject(null)}
+      >
+        {/* ✅ 脚本执行器（放在 `Canvas` 内） */}
+        <ScriptRunner />
+
+        {/* ✅ 光照处理 */}
         {lights}
 
         {/* ✅ 背景处理 */}
@@ -70,7 +121,6 @@ const Viewport: React.FC = () => {
 
         {/* ✅ 3D 网格 & 辅助线 */}
         {showGrid && <gridHelper args={[10, 10, 'gray', 'gray']} position={[0, 0, 0]} />}
-        {/* {showGrid && <gridHelper args={[10, 10, 'gray', 'gray']} />} */}
         {showHelpers && <axesHelper />}
 
         {/* ✅ 轨道控制器 */}
@@ -81,8 +131,8 @@ const Viewport: React.FC = () => {
         {/* ✅ 3D 模型 */}
         <primitive object={scene} onClick={handleObjectClick} />
 
-        {/* ✅ 轨道控制 */}
-        <OrbitControls makeDefault ref={controlsRef} />
+        {/* ✅ 轨道控制，跟随 `mainCamera` */}
+        {mainCamera.current && <OrbitControls makeDefault ref={controlsRef} camera={mainCamera.current} />}
 
         {/* ✅ 物体变换 */}
         {selectedObject && <TransformControls object={selectedObject} mode={transformMode} />}
