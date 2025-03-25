@@ -35,32 +35,32 @@ const SidebarScene = () => {
   // ✅ **获取对象图标**
   const getIcon = (object: THREE.Object3D) => {
     if (object instanceof THREE.PerspectiveCamera || object instanceof THREE.OrthographicCamera) {
-      return <CameraOutlined style={{ color: '#006d75' }} />;
+      return <CameraOutlined style={{ color: 'var(--list-icon-color)' }} />;
     }
     if (object instanceof THREE.Mesh) {
-      return <FileOutlined style={{ color: '#FFD700' }} />; // 📄 统一金色
+      return <FileOutlined style={{ color: 'var(--list-icon-color)' }} />; // 📄 统一金色
     }
     if (object instanceof THREE.Sprite) {
-      return <ShareAltOutlined style={{ color: '#FFD700' }} />;
+      return <ShareAltOutlined style={{ color: 'var(--list-icon-color)' }} />;
     }
     if (object instanceof THREE.Bone) {
-      return <LuBone style={{ color: '#FFD700' }} />;
+      return <LuBone style={{ color: 'var(--list-icon-color)' }} />;
     }
     if (object instanceof THREE.Light) {
-      return <SunOutlined style={{ color: '#FFD700' }} />;
+      return <SunOutlined style={{ color: 'var(--list-icon-color)' }} />;
     }
     if (object instanceof THREE.Line || object instanceof THREE.Points) {
-      return <AimOutlined style={{ color: '#FFD700' }} />;
+      return <AimOutlined style={{ color: 'var(--list-icon-color)' }} />;
     }
     if (object instanceof THREE.Group || object.children.length > 0) {
       return expandedKeys.has(object.uuid) ? (
-        <FolderOpenOutlined style={{ color: '#FFD700' }} />
+        <FolderOpenOutlined style={{ color: 'var(--list-icon-color)' }} />
       ) : (
-        <FolderOutlined style={{ color: '#FFD700' }} />
+        <FolderOutlined style={{ color: 'var(--list-icon-color)' }} />
       );
     }
 
-    return <QuestionOutlined style={{ color: '#FFD700' }} />;
+    return <QuestionOutlined style={{ color: 'var(--list-icon-color)' }} />;
   };
 
   // ✅ **递归生成列表**
@@ -101,9 +101,10 @@ const SidebarScene = () => {
             className={selectedObject?.uuid === item.key ? 'selected' : ''}
             onClick={() => setSelectedObject(item.object)}
             style={{
-              paddingLeft: `${item.depth * 18}px`,
+              paddingLeft: `${(item.depth + 1) * 16}px`,
               display: 'flex',
               alignItems: 'center',
+              color: 'var(--text-color)',
             }}
           >
             {/* ✅ 组可以折叠 */}
@@ -113,25 +114,26 @@ const SidebarScene = () => {
                   e.stopPropagation();
                   toggleExpand(item.key);
                 }}
-                style={{ marginRight: '8px', cursor: 'pointer' }}
+                style={{ marginRight: '10px', cursor: 'pointer' }}
               >
                 {item.isExpanded ? <MinusSquareOutlined /> : <PlusSquareOutlined />}
               </span>
             )}
-            <span style={{ marginRight: '6px' }}>{item.icon}</span>
+            <span style={{ marginRight: '4px' }}>{item.icon}</span>
             <span>{item.name}</span>
             <Button
               type="text"
               size="small"
               onClick={(e) => {
                 e.stopPropagation();
-                // item.object.visible = !item.object.visible;
-                // setSelectedObject({ ...item.object });
+                item.object.visible = !item.object.visible;
+                setSelectedObject({ ...item.object });
                 console.log(item.object);
               }}
               style={{
                 marginLeft: 'auto',
                 width: 24, // ✅ 保持按钮宽度统一
+                color: 'var(--text-color)',
                 backgroundColor: item.visible ? 'transparent' : 'rgba(0,0,0,0.1)', // ✅ 不可见时背景灰色
               }}
             >

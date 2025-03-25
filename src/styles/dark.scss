@@ -1,12 +1,19 @@
 :root[data-theme='dark'] {
-  --text-color: var(--white);
-  --text-color-secondary: #cccccc;
-  --border-color: #4d4f54;
-  --component-background: #3c3d42;
-  --component-background-hover: #3c3d42;
-  --component-background-active: #3c3d42;
-  --child-component-background: #4d4f54;
-  --input-background: var(--child-component-background);
-  --body-background: #292a2f;
-  --header-background: #292a2f;
+  --text-color: #cccccc;
+  --text-color-secondary: #bbbbbb; /* ✅ 提高对比度 */
+  --primary-color: #1e90ff; /* 亮蓝色 */
+  --secondary-color: #ff9800; /* 暖黄色 */
+  --background-color: #181a1b;
+  --component-background: #242628;
+  --child-component-background: #1e293b;
+  --border-color: #44474b; /* ✅ 提高边框可见度 */
+  --hover-background: #1e90ff;
+  --button-background: #2a2d31;
+  --grid-color: rgba(255, 255, 255, 0.1);
+  --selected-background: rgba(255, 255, 255, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.4); /* ✅ 增强阴影 */
+  --list-item-hover-background: rgba(255, 255, 255, 0.1);
+  --list-item-selected-background: rgba(255, 255, 255, 0.25); /* ✅ 选中更明显 */
+  --button-hover-background: rgba(255, 255, 255, 0.15);
+  --input-background: #2b2d30; /* ✅ 增加输入框背景色 */
 }

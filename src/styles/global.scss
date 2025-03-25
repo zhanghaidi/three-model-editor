@@ -2,27 +2,17 @@
 @use './light';
 
 :root {
-  --black: #000000;
-  --white: #ffffff;
-  --primary-color: #0063f2;
-  --primary-color-light: #3e89f9;
-  --primary-color-dark: #00409d;
-  --primary-color-soft: #b4cdff;
-  --success-color: #48b657;
-  --warning-color: #ffc700;
-  --error-color: #f23c24;
   --font-size: 14px;
+  --list-icon-color: #ffd700;
   --border-radius-base: 10px;
   --z-index-header: 50;
-  --header-height: 45px;
+  --header-height: 40px;
   --sidebar-min-width: 350px;
   --sidebar-max-width: 600px;
 }
 
 /* ✅ 全局样式 */
 body {
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 14px;
   margin: 0;
   overflow: hidden;
 }
@@ -31,8 +21,6 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--body-background);
-  color: var(--text-color);
 }
 
 .container {
@@ -47,19 +35,21 @@ body {
   align-items: center;
   height: var(--header-height);
   line-height: var(--header-height);
-  background-color: var(--header-background);
-  box-shadow: var(--shadow-1);
-
-  .menubar-left {
-    float: left;
-    cursor: pointer;
-    padding-right: 8px;
-  }
-
-  .menubar-right {
-    float: right;
-    cursor: pointer;
-    padding-right: 8px;
+  background-color: var(--child-component-background);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px var(--shadow-color);
+  padding: 0 8px;
+}
+.menubar button {
+  font-size: 16px;
+  color: var(--text-color);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--hover-background);
+    color: var(--text-color-secondary);
   }
 }
 
@@ -75,8 +65,7 @@ body {
   position: relative;
   height: 100vh;
   background-color: var(--child-component-background);
-  border-left: 1px solid var(--border-color);
-  transition: width 0.2s ease-in-out; /* ✅ 让拖拽更丝滑 */
+  transition: width 0.2s ease-in-out;
 }
 
 /* ✅ 默认隐藏拖拽条 */
@@ -105,17 +94,22 @@ body.dragging .resize-handle {
 }
 
 /* ✅ 侧边栏 Tabs */
-.sidebar-tabs {
-  padding: 0 8px; // ✅ 用 padding 替换 margin 以保持结构稳定
+.sidebar-tabs .ant-tabs {
+  background: var(--component-background);
+}
+.sidebar-tabs .ant-tabs-tab {
+  color: var(--text-color-secondary);
+}
+
+.sidebar-tabs .ant-tabs-tab-active {
+  color: var(--text-color);
 }
 
 .scene-list {
   width: 100%;
   height: 350px;
   overflow-y: auto;
-  background-color: #fff;
-  padding: 0px;
-  margin: 0px;
+  background-color: var(--background-color);
   overflow: auto;
   resize: vertical;
   cursor: default;
@@ -123,30 +117,21 @@ body.dragging .resize-handle {
 
 .scene-list .selected {
   background: rgba(0, 136, 255, 0.1); // ✅ 选中状态高亮
-}
-
-/* ✅ 树结构：连接父子节点 */
-.tree-line {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: rgba(0, 0, 0, 0.2); /* ✅ 线的颜色 */
-}
-
-/* ✅ 组展开时，显示横向连接线 */
-.tree-line::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: -8px;
-  width: 8px;
-  height: 1px;
-  background-color: rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  border-radius: 5px;
 }
 
 .sidebar-properties {
   padding: 10px;
+  background-color: var(--component-background);
+}
+.sidebar-object,
+.sidebar-material,
+.sidebar-geometry {
+  color: var(--text-color);
+}
+.ant-typography {
+  color: var(--text-color);
 }
 
 /* ✅ 工具栏 */

@@ -55,7 +55,7 @@ const SidebarObject = () => {
   };
 
   return (
-    <div>
+    <div className="sidebar-object">
       {selectedObject ? (
         <Space direction="vertical">
           <Row>

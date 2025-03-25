@@ -124,7 +124,7 @@ const Viewport: React.FC = () => {
         {showHelpers && <axesHelper />}
 
         {/* ✅ 轨道控制器 */}
-        <GizmoHelper alignment="bottom-right" margin={[400, 60]}>
+        <GizmoHelper alignment="bottom-right" margin={[100, 120]}>
           <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor="white" />
         </GizmoHelper>
 
