@@ -16,6 +16,9 @@ interface EditorState {
   addObject: (object: THREE.Object3D) => void;
   setSelectedObject: (object: THREE.Object3D | null) => void;
   setTransformMode: (mode: 'translate' | 'rotate' | 'scale') => void;
+  setRenderer: (renderer: THREE.WebGLRenderer) => void;
+  setCamera: (camera: THREE.Camera) => void;
+  setScene: (scene: THREE.Scene) => void;
 }
 
 export const useEditorStore = create<EditorState>((set) => ({
@@ -61,6 +64,21 @@ export const useEditorStore = create<EditorState>((set) => ({
     }),
   setSelectedObject: (object) => set({ selectedObject: object }),
   setTransformMode: (mode) => set({ transformMode: mode }),
-  setRenderer: (renderer: any) => set({ renderer }),
   setCamera: (camera: any) => set({ camera }),
+  setScene: (newScene: THREE.Scene) =>
+    set(() => {
+      return { scene: newScene };
+    }),
+  // ✅ **实现 setRenderer 方法**
+  setRenderer: (renderer) =>
+    set(() => {
+      // 确保 `renderer` 正确初始化
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      return { renderer };
+    }),
 }));

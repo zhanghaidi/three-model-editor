@@ -4,6 +4,8 @@ import * as THREE from 'three';
 
 import { useEditorStore } from '@/store/editorStore';
 
+import SidebarObjectAnimation from './SidebarObjectAnimation';
+
 const SidebarObject = () => {
   const { selectedObject, setSelectedObject } = useEditorStore();
 
@@ -57,105 +59,108 @@ const SidebarObject = () => {
   return (
     <div className="sidebar-object">
       {selectedObject ? (
-        <Space direction="vertical">
-          <Row>
-            <Col span={6}>类型</Col>
-            <Col span={18}>
-              <span>{selectedObject.type}</span>
-            </Col>
-          </Row>
-          {/* ✅ **对象名称** */}
-          <Row>
-            <Col span={6}>名称</Col>
-            <Col span={18}>
-              <Input
-                value={objectName}
-                onChange={(e) => {
-                  setObjectName(e.target.value);
-                  updateObject('name', e.target.value);
-                }}
-              />
-            </Col>
-          </Row>
+        <div>
+          <Space direction="vertical">
+            <Row>
+              <Col span={6}>类型</Col>
+              <Col span={18}>
+                <span>{selectedObject.type}</span>
+              </Col>
+            </Row>
+            {/* ✅ **对象名称** */}
+            <Row>
+              <Col span={6}>名称</Col>
+              <Col span={18}>
+                <Input
+                  value={objectName}
+                  onChange={(e) => {
+                    setObjectName(e.target.value);
+                    updateObject('name', e.target.value);
+                  }}
+                />
+              </Col>
+            </Row>
 
-          {/* ✅ **位置** */}
-          <Row>
-            <Col span={6}>位置</Col>
-            <Col span={18}>
-              <Space>
-                {['X', 'Y', 'Z'].map((axis, index) => (
-                  <InputNumber
-                    key={axis}
-                    value={position[index]}
-                    onChange={(value) => {
-                      const newPos = [...position];
-                      newPos[index] = value || 0;
-                      setPosition(newPos);
-                      updateObject('position', newPos);
-                    }}
-                  />
-                ))}
-              </Space>
-            </Col>
-          </Row>
+            {/* ✅ **位置** */}
+            <Row>
+              <Col span={6}>位置</Col>
+              <Col span={18}>
+                <Space>
+                  {['X', 'Y', 'Z'].map((axis, index) => (
+                    <InputNumber
+                      key={axis}
+                      value={position[index]}
+                      onChange={(value) => {
+                        const newPos = [...position];
+                        newPos[index] = value || 0;
+                        setPosition(newPos);
+                        updateObject('position', newPos);
+                      }}
+                    />
+                  ))}
+                </Space>
+              </Col>
+            </Row>
 
-          {/* ✅ **旋转（角度制）** */}
-          <Row>
-            <Col span={6}>旋转</Col>
-            <Col span={18}>
-              <Space>
-                {['X', 'Y', 'Z'].map((axis, index) => (
-                  <InputNumber
-                    key={axis}
-                    value={rotation[index]}
-                    onChange={(value) => {
-                      const newRot = [...rotation];
-                      newRot[index] = value || 0;
-                      setRotation(newRot);
-                      updateObject('rotation', newRot);
-                    }}
-                  />
-                ))}
-              </Space>
-            </Col>
-          </Row>
+            {/* ✅ **旋转（角度制）** */}
+            <Row>
+              <Col span={6}>旋转</Col>
+              <Col span={18}>
+                <Space>
+                  {['X', 'Y', 'Z'].map((axis, index) => (
+                    <InputNumber
+                      key={axis}
+                      value={rotation[index]}
+                      onChange={(value) => {
+                        const newRot = [...rotation];
+                        newRot[index] = value || 0;
+                        setRotation(newRot);
+                        updateObject('rotation', newRot);
+                      }}
+                    />
+                  ))}
+                </Space>
+              </Col>
+            </Row>
 
-          {/* ✅ **缩放** */}
-          <Row>
-            <Col span={6}>缩放</Col>
-            <Col span={18}>
-              <Space>
-                {['X', 'Y', 'Z'].map((axis, index) => (
-                  <InputNumber
-                    key={axis}
-                    value={scale[index]}
-                    min={0.01}
-                    onChange={(value) => {
-                      const newScale = [...scale];
-                      newScale[index] = value || 1;
-                      setScale(newScale);
-                      updateObject('scale', newScale);
-                    }}
-                  />
-                ))}
-              </Space>
-            </Col>
-          </Row>
+            {/* ✅ **缩放** */}
+            <Row>
+              <Col span={6}>缩放</Col>
+              <Col span={18}>
+                <Space>
+                  {['X', 'Y', 'Z'].map((axis, index) => (
+                    <InputNumber
+                      key={axis}
+                      value={scale[index]}
+                      min={0.01}
+                      onChange={(value) => {
+                        const newScale = [...scale];
+                        newScale[index] = value || 1;
+                        setScale(newScale);
+                        updateObject('scale', newScale);
+                      }}
+                    />
+                  ))}
+                </Space>
+              </Col>
+            </Row>
 
-          {/* ✅ **可见性** */}
-          <Row>
-            <Col span={6}>可见性</Col>
-            <Col span={18}>
-              <Switch
-                checked={visible}
-                onChange={(checked) => {
-                  setVisible(checked);
-                  updateObject('visible', checked);
-                }}
-              />
-            </Col>
-          </Row>
-        </Space>
+            {/* ✅ **可见性** */}
+            <Row>
+              <Col span={6}>可见性</Col>
+              <Col span={18}>
+                <Switch
+                  checked={visible}
+                  onChange={(checked) => {
+                    setVisible(checked);
+                    updateObject('visible', checked);
+                  }}
+                />
+              </Col>
+            </Row>
+          </Space>
+          <SidebarObjectAnimation />
+        </div>
       ) : (
         <p>未选中对象</p>
       )}

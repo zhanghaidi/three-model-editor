@@ -1,42 +1,15 @@
-import { OrbitControls, Environment, GizmoHelper, GizmoViewport, TransformControls } from '@react-three/drei';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, GizmoHelper, GizmoViewport, TransformControls } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 
-import { useBackgroundStore } from '@/store/backgroundStore';
 import { useEditorStore } from '@/store/editorStore';
 import { useLightStore } from '@/store/lightStore';
-import { useScriptStore } from '@/store/scriptStore';
 
-// ✅ **把 `useFrame` 移到 `ScriptRunner` 组件内部**
-const ScriptRunner = () => {
-  const { scripts, executeScripts } = useScriptStore();
-  const { scene } = useEditorStore();
-  const scriptObjectsRef = useRef<Record<string, THREE.Object3D>>({});
-
-  // ✅ **缓存脚本对象列表**
-  useEffect(() => {
-    const objects: Record<string, THREE.Object3D> = {};
-    Object.keys(scripts).forEach((uuid) => {
-      const obj = scene.getObjectByProperty('uuid', uuid) as THREE.Object3D;
-      if (obj) objects[uuid] = obj;
-    });
-    scriptObjectsRef.current = objects;
-  }, [scripts, scene]);
-
-  // ✅ **执行脚本（每帧）**
-  useFrame((_state, delta) => {
-    Object.entries(scriptObjectsRef.current).forEach(([uuid]) => {
-      executeScripts(uuid, 'update', delta);
-    });
-  });
-
-  return null; // 🚀 `ScriptRunner` 只是个逻辑组件，不渲染任何 UI
-};
+import SceneBackground from './SceneBackground';
 
 const Viewport: React.FC = () => {
-  const { background, backgroundType, backgroundBlur } = useBackgroundStore();
   const { ambientLight, directionalLight, pointLight, spotLight } = useLightStore();
   const { scene, selectedObject, setSelectedObject, transformMode, showGrid, showHelpers } = useEditorStore();
 
@@ -103,20 +76,11 @@ const Viewport: React.FC = () => {
         camera={mainCamera.current ?? { position: [5, 5, 5], fov: 50 }}
         onPointerMissed={() => setSelectedObject(null)}
       >
-        {/* ✅ 脚本执行器（放在 `Canvas` 内） */}
-        <ScriptRunner />
-
         {/* ✅ 光照处理 */}
         {lights}
-
         {/* ✅ 背景处理 */}
         <Suspense fallback={null}>
-          {backgroundType === 'color' ? (
-            <color attach="background" args={[background]} />
-          ) : (
-            typeof background === 'string' &&
-            background.endsWith('.hdr') && <Environment files={background} background blur={backgroundBlur} />
-          )}
+          <SceneBackground />
         </Suspense>
 
         {/* ✅ 3D 网格 & 辅助线 */}

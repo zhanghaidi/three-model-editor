@@ -5,12 +5,10 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 
-import { useAnimationStore } from '@/store/animationStore';
 import { useEditorStore } from '@/store/editorStore';
 
 export default function Loader() {
   const { scene } = useEditorStore();
-  const { addModelAnimations } = useAnimationStore();
 
   // ✅ **直接修改 `Group` 的 name，而不是额外包一层**
   const addToScene = (model: THREE.Object3D, fileName: string) => {
@@ -42,19 +40,10 @@ export default function Loader() {
         const loader = new GLTFLoader();
         const gltf = await loader.loadAsync(url);
         model = gltf.scene;
-
-        // ✅ 存储动画
-        if (gltf.animations.length > 0) {
-          addModelAnimations(fileName, gltf.animations);
-        }
+        model.animations.push(...gltf.animations);
       } else if (ext === 'fbx') {
         const loader = new FBXLoader();
         model = await loader.loadAsync(url);
-
-        // ✅ 存储动画
-        if ((model as any).animations?.length > 0) {
-          addModelAnimations(fileName, (model as any).animations);
-        }
       } else if (ext === 'obj') {
         const loader = new OBJLoader();
         model = await loader.loadAsync(url);
@@ -70,8 +59,7 @@ export default function Loader() {
         throw new Error('解析失败');
       }
     } catch (error) {
-      console.error('导入失败', error);
-      message.error('模型导入失败');
+      message.error('模型导入失败' + error);
     } finally {
       URL.revokeObjectURL(url);
     }
