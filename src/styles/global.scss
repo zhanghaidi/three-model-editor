@@ -1,0 +1,168 @@
+@use './dark';
+@use './light';
+
+:root {
+  --font-size: 14px;
+  --list-icon-color: #ffd700;
+  --border-radius-base: 10px;
+  --z-index-header: 50;
+  --header-height: 40px;
+  --sidebar-min-width: 350px;
+  --sidebar-max-width: 600px;
+}
+
+/* ✅ 全局样式 */
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+}
+
+/* ✅ 顶部菜单栏 */
+.menubar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+  line-height: var(--header-height);
+  background-color: var(--child-component-background);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px var(--shadow-color);
+  padding: 0 8px;
+}
+.menubar button {
+  font-size: 16px;
+  color: var(--text-color);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background: var(--hover-background);
+    color: var(--text-color-secondary);
+  }
+}
+
+/* ✅ 视图区 */
+.viewport {
+  flex-grow: 1;
+  height: 100vh;
+  transition: width 0.2s ease-out;
+}
+
+/* ✅ Sidebar 基本样式 */
+.sidebar {
+  position: relative;
+  height: 100vh;
+  background-color: var(--child-component-background);
+  transition: width 0.2s ease-in-out;
+}
+
+/* ✅ 默认隐藏拖拽条 */
+.resize-handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  cursor: ew-resize;
+  background: rgba(0, 136, 255, 0.2);
+  transition: background 0.2s ease-in-out, opacity 0.2s;
+  opacity: 0; /* 默认不可见 */
+}
+
+/* ✅ 仅在鼠标悬停 `resize-handle` 时显示 */
+.resize-handle:hover {
+  opacity: 1;
+  background: rgba(0, 136, 255, 0.8);
+}
+
+/* ✅ 拖拽时始终可见 */
+body.dragging .resize-handle {
+  opacity: 1;
+  background: rgba(0, 136, 255, 1);
+}
+
+/* ✅ 侧边栏 Tabs */
+.sidebar-tabs .ant-tabs {
+  background: var(--component-background);
+}
+.sidebar-tabs .ant-tabs-tab {
+  color: var(--text-color-secondary);
+}
+
+.sidebar-tabs .ant-tabs-tab-active {
+  color: var(--text-color);
+}
+
+.scene-list {
+  width: 100%;
+  height: 350px;
+  overflow-y: auto;
+  background-color: var(--background-color);
+  overflow: auto;
+  resize: vertical;
+  cursor: default;
+}
+
+.scene-list .selected {
+  background: rgba(0, 136, 255, 0.1); // ✅ 选中状态高亮
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.sidebar-properties {
+  padding: 10px;
+  background-color: var(--component-background);
+}
+.sidebar-object,
+.sidebar-material,
+.sidebar-geometry {
+  color: var(--text-color);
+}
+.ant-typography {
+  color: var(--text-color);
+}
+
+/* ✅ 工具栏 */
+.toolbar {
+  position: absolute;
+  left: 10px;
+  top: calc(var(--header-height) + 10px);
+  background: var(--component-background);
+  border-radius: 5px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: var(--z-index-header);
+  button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 6px;
+    color: var(--text-color);
+    transition: all 0.2s ease-in-out;
+    border-radius: 4px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &.active {
+      color: var(--primary-color);
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+}

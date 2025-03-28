@@ -1,0 +1,17 @@
+:root[data-theme='light'] {
+  --text-color: #101010;
+  --text-color-secondary: #555555; /* ✅ 提高对比度 */
+  --primary-color: #007bff; /* 亮蓝色 */
+  --secondary-color: #ff5722; /* 橙色 */
+  --background-color: #ffffff;
+  --component-background: #fcfcfc; /* ✅ 更纯净 */
+  --child-component-background: #f5f5f5; /* ✅ 更柔和 */
+  --border-color: #d5d5d5; /* ✅ 更明显 */
+  --hover-background: #1890ff;
+  --button-background: #f0f0f0;
+  --selected-background: rgba(0, 136, 255, 0.2); /* ✅ 选中更明显 */
+  --shadow-color: rgba(0, 0, 0, 0.15); /* ✅ 立体感更强 */
+  --list-item-hover-background: rgba(0, 0, 0, 0.05);
+  --list-item-selected-background: rgba(0, 136, 255, 0.2); /* ✅ 选中更明显 */
+  --button-hover-background: rgba(0, 0, 0, 0.07); /* ✅ 略微增强 */
+}

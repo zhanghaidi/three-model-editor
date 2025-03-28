@@ -12,10 +12,6 @@ export const router = createBrowserRouter([
     path: '/editor',
     element: <Editor />,
   },
-  {
-    path: '/model',
-    element: <Error404 />,
-  },
 
   {
     path: '*',

@@ -1,20 +1,28 @@
-import Header from '@/components/Header';
+import { useEffect } from 'react';
+
+import Menubar from '@/components/Menubar';
 import Sidebar from '@/components/Sidebar';
+import Toolbar from '@/components/Toolbar';
 import Viewport from '@/components/Viewport';
+import { useThemeStore } from '@/store/themeStore';
+import { useUIStore } from '@/store/uiStore';
 
 export default function Editor() {
-  return (
-    <div className="relative h-screen w-screen">
-      {/* ✅ 顶部导航 */}
-      <Header />
+  const { theme } = useThemeStore();
+  const { sidebarWidth } = useUIStore(); // ✅ 监听 Sidebar 宽度变化
 
-      <div className="flex h-[calc(100vh-50px)]">
-        {/* ✅ 视口区域 */}
-        <div className="flex-1">
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  return (
+    <div className="editor">
+      <Menubar />
+      <div className="container">
+        <Toolbar />
+        <div className="viewport" style={{ width: `calc(100% - ${sidebarWidth}px)` }}>
           <Viewport />
         </div>
-
-        {/* ✅ 侧边栏 */}
         <Sidebar />
       </div>
     </div>

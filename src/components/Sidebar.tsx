@@ -1,93 +1,84 @@
-import {
-  EnvironmentOutlined,
-  BulbOutlined,
-  BgColorsOutlined,
-  PlayCircleOutlined,
-  CameraOutlined,
-} from '@ant-design/icons';
-import { Card, Slider, Tabs } from 'antd';
+import { BulbOutlined, EnvironmentOutlined, SettingOutlined, TagsOutlined } from '@ant-design/icons';
+import { Tabs } from 'antd';
 
-import BackgroundSettings from './BackgroundSettings';
-import MaterialList from './MaterialList';
-import AnimationControls from './SidebarAnimation';
-import SliderbarLight from './SidebarLight';
+import { useSidebarResize } from '@/hooks/useSidebarResize';
 
-const Sidebar: React.FC = () => {
+import SidebarProject from './SidebarProject';
+import SidebarProperties from './SidebarProperties';
+import SidebarScene from './SidebarScene';
+import SidebarSettings from './SidebarSettings';
+import SidebarTags from './SidebarTags';
+
+export default function Sidebar() {
+  const { sidebarWidth, startResizing } = useSidebarResize(); // 🎯 使用 Hook
+
   return (
-    <aside
-      className="fixed right-0 top-[50px] h-[calc(100vh-50px)] bg-gray-800 text-white shadow-lg border-l border-gray-700 overflow-y-auto flex flex-col"
-      style={{ width: '300px' }}
-    >
+    <div className="sidebar" style={{ width: `${sidebarWidth}px` }}>
+      {/* ✅ 拖拽调整宽度 */}
+      <div className="resize-handle" onPointerDown={startResizing}></div>
       <Tabs
-        defaultActiveKey="background"
-        className="flex-1 flex flex-col"
-        tabBarGutter={8}
-        style={{ padding: '0 8px' }}
-        tabBarStyle={{
-          margin: 0,
-          padding: '8px 0',
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexWrap: 'nowrap',
-          backgroundColor: '#2d2d2d',
-          borderBottom: '1px solid #444',
-          color: 'white',
-        }}
+        className="sidebar-tabs"
+        tabBarStyle={{ marginBottom: 1 }}
+        defaultActiveKey="scene"
+        type="card"
         items={[
           {
-            key: 'background',
+            key: 'scene',
             label: (
-              <span className="flex items-center gap-1">
-                <EnvironmentOutlined /> 背景
-              </span>
-            ),
-            children: <BackgroundSettings />,
-          },
-          {
-            key: 'light',
-            label: (
-              <span className="flex items-center gap-1">
-                <BulbOutlined /> 灯光
-              </span>
-            ),
-            children: <SliderbarLight />,
-          },
-          {
-            key: 'material',
-            label: (
-              <span className="flex items-center gap-1">
-                <BgColorsOutlined /> 材质
-              </span>
-            ),
-            children: <MaterialList />,
-          },
-          {
-            key: 'animation',
-            label: (
-              <span className="flex items-center gap-1">
-                <PlayCircleOutlined /> 动画
-              </span>
-            ),
-            children: <AnimationControls />,
-          },
-          {
-            key: 'postprocess',
-            label: (
-              <span className="flex items-center gap-1">
-                <CameraOutlined /> 后期
-              </span>
+              <>
+                <EnvironmentOutlined /> 场景
+              </>
             ),
             children: (
-              <Card className="bg-gray-700 border border-gray-600 shadow-sm p-2 text-white">
-                <p className="mb-2">曝光调整</p>
-                <Slider min={0} max={2} step={0.1} defaultValue={1} />
-              </Card>
+              <div>
+                <SidebarScene />
+                <SidebarProperties />
+              </div>
+            ),
+          },
+          {
+            key: 'tags',
+            label: (
+              <>
+                <TagsOutlined /> 标签
+              </>
+            ),
+            children: (
+              <div>
+                <SidebarTags />
+              </div>
+            ),
+          },
+
+          {
+            key: 'project',
+            label: (
+              <>
+                <BulbOutlined /> 项目
+              </>
+            ),
+            children: (
+              <div>
+                <SidebarProject />
+              </div>
+            ),
+          },
+          {
+            key: 'settings',
+            label: (
+              <>
+                <SettingOutlined />
+                设置
+              </>
+            ),
+            children: (
+              <div>
+                <SidebarSettings />
+              </div>
             ),
           },
         ]}
       />
-    </aside>
+    </div>
   );
-};
-
-export default Sidebar;
+}

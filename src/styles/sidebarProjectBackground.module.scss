@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+}
+
+.settingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.select {
+  flex: 1;
+}
+
+.colorInput {
+  width: 50px;
+  height: 30px;
+  border: none;
+  padding: 0;
+}
+
+.imageSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.backgroundPreview {
+  width: 60px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+}

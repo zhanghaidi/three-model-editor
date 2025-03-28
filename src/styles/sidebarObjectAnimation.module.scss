@@ -1,0 +1,22 @@
+.container {
+  padding: 10px;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.noAnimation {
+  color: var(--text-color-secondary);
+  text-align: center;
+  padding: 10px;
+}
+
+.animationList {
+  margin-top: 10px;
+}
+
+.sliderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
