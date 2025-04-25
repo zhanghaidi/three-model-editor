@@ -128,7 +128,7 @@ const SidebarScene = () => {
                 e.stopPropagation();
                 item.object.visible = !item.object.visible;
                 setSelectedObject({ ...item.object });
-                console.log(item.object);
+                // console.log(item.object);
               }}
               style={{
                 marginLeft: 'auto',

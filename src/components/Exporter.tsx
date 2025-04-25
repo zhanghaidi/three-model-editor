@@ -22,39 +22,24 @@ const Exporter: React.FC = () => {
 
   // ✅ 处理模型导出
   const exportModel = (format: 'gltf' | 'glb' | 'obj' | 'stl') => {
+    console.log('导出模型：', scene);
     if (scene.children.length === 0) {
       message.error('没有可导出的模型');
       return;
     }
 
-    // ✅ **仅获取 `Mesh` 类型的对象**
-    const exportObjects = scene.children.filter((obj) => obj instanceof THREE.Mesh);
-    if (exportObjects.length === 0) {
-      return message.error('没有可导出的 Mesh');
-    }
-
-    // ✅ **如果只有一个 `Mesh`，直接导出，否则用 `Group` 组合导出**
-    const exportTarget =
-      exportObjects.length === 1
-        ? exportObjects[0]
-        : (() => {
-            const group = new THREE.Group();
-            exportObjects.forEach((obj) => group.add(obj.clone())); // ✅ 克隆，避免影响原始模型
-            return group;
-          })();
-
     switch (format) {
       case 'gltf':
-        exportGLTF(exportTarget, false);
+        exportGLTF(scene, false);
         break;
       case 'glb':
-        exportGLTF(exportTarget, true);
+        exportGLTF(scene, true);
         break;
       case 'obj':
-        exportOBJ(exportTarget);
+        exportOBJ(scene);
         break;
       case 'stl':
-        exportSTL(exportTarget);
+        exportSTL(scene);
         break;
       default:
         message.error('不支持的导出格式');
@@ -76,6 +61,7 @@ export default Exporter;
 
 // ✅ GLTF/GLB 导出
 function exportGLTF(model: THREE.Object3D, binary: boolean) {
+  const filename = model.children[1].name || 'model';
   const exporter = new GLTFExporter();
   const options = { binary };
   exporter.parse(
@@ -84,7 +70,7 @@ function exportGLTF(model: THREE.Object3D, binary: boolean) {
       const blob = binary
         ? new Blob([gltf as ArrayBuffer], { type: 'application/octet-stream' })
         : new Blob([JSON.stringify(gltf)], { type: 'application/json' });
-      downloadFile(blob, `model.${binary ? 'glb' : 'gltf'}`);
+      downloadFile(blob, `${filename}.${binary ? 'glb' : 'gltf'}`);
     },
     (error) => {
       message.error('模型导出失败，' + error);
