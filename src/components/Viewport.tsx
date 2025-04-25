@@ -7,12 +7,12 @@ import { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { useEditorStore } from '@/store/editorStore';
 import { useLightStore } from '@/store/lightStore';
 
+import ModelDecomposer from './ModelDecomposer';
 import SceneBackground from './SceneBackground';
 
 const Viewport: React.FC = () => {
   const { ambientLight, directionalLight, pointLight, spotLight } = useLightStore();
   const { scene, selectedObject, setSelectedObject, transformMode, showGrid, showHelpers } = useEditorStore();
-
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
   const mainCamera = useRef<THREE.PerspectiveCamera | null>(null);
 
@@ -21,7 +21,7 @@ const Viewport: React.FC = () => {
     let camera = scene.children.find((obj) => obj instanceof THREE.PerspectiveCamera) as THREE.PerspectiveCamera;
 
     if (!camera) {
-      camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10000);
       camera.name = '相机';
       camera.position.set(5, 5, 5);
       scene.add(camera);
@@ -100,6 +100,7 @@ const Viewport: React.FC = () => {
 
         {/* ✅ 物体变换 */}
         {selectedObject && <TransformControls object={selectedObject} mode={transformMode} />}
+        <ModelDecomposer />
       </Canvas>
     </div>
   );

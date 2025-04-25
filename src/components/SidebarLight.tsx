@@ -3,7 +3,7 @@ import React from 'react';
 
 import { useLightStore } from '@/store/lightStore';
 
-const SidebarTags: React.FC = () => {
+const SidebarLight: React.FC = () => {
   const {
     ambientLight,
     directionalLight,
@@ -111,4 +111,4 @@ const SidebarTags: React.FC = () => {
   );
 };
 
-export default SidebarTags;
+export default SidebarLight;

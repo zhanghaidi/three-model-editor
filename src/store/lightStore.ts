@@ -27,7 +27,7 @@ interface LightState {
 }
 
 export const useLightStore = create<LightState>((set) => ({
-  ambientLight: { enabled: true, intensity: 2, color: '#ffffff' },
+  ambientLight: { enabled: true, intensity: 4, color: '#ffffff' },
   directionalLight: { enabled: false, intensity: 1, color: '#ffffff' },
   pointLight: { enabled: false, intensity: 1, color: '#ffffff', distance: 10 },
   spotLight: { enabled: false, intensity: 1, color: '#ffffff', distance: 10, angle: Math.PI / 4 },

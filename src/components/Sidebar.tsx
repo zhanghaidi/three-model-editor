@@ -1,12 +1,12 @@
-import { BulbOutlined, EnvironmentOutlined, SettingOutlined, TagsOutlined } from '@ant-design/icons';
+import { BgColorsOutlined, BulbOutlined, EnvironmentOutlined, TagsOutlined } from '@ant-design/icons';
 import { Tabs } from 'antd';
 
 import { useSidebarResize } from '@/hooks/useSidebarResize';
 
+import SidebarLabel from './SidebarLabel';
 import SidebarProject from './SidebarProject';
 import SidebarProperties from './SidebarProperties';
 import SidebarScene from './SidebarScene';
-import SidebarSettings from './SidebarSettings';
 import SidebarTags from './SidebarTags';
 
 export default function Sidebar() {
@@ -37,10 +37,24 @@ export default function Sidebar() {
             ),
           },
           {
-            key: 'tags',
+            key: 'label',
             label: (
               <>
-                <TagsOutlined /> 标签
+                <TagsOutlined />
+                标签
+              </>
+            ),
+            children: (
+              <div>
+                <SidebarLabel />
+              </div>
+            ),
+          },
+          {
+            key: 'light',
+            label: (
+              <>
+                <BulbOutlined /> 灯光
               </>
             ),
             children: (
@@ -54,7 +68,7 @@ export default function Sidebar() {
             key: 'project',
             label: (
               <>
-                <BulbOutlined /> 项目
+                <BgColorsOutlined /> 渲染
               </>
             ),
             children: (
@@ -63,20 +77,21 @@ export default function Sidebar() {
               </div>
             ),
           },
-          {
-            key: 'settings',
-            label: (
-              <>
-                <SettingOutlined />
-                设置
-              </>
-            ),
-            children: (
-              <div>
-                <SidebarSettings />
-              </div>
-            ),
-          },
+
+          //   {
+          //     key: 'settings',
+          //     label: (
+          //       <>
+          //         <SettingOutlined />
+          //         设置
+          //       </>
+          //     ),
+          //     children: (
+          //       <div>
+          //         <SidebarSettings />
+          //       </div>
+          //     ),
+          //   },
         ]}
       />
     </div>
