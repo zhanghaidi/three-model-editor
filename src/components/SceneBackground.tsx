@@ -51,6 +51,7 @@ const SceneBackground = () => {
           blur={backgroundBlur}
         />
       )}
+      <color attach="background" args={['#b4b0b0']} />
     </>
   );
 };
