@@ -50,7 +50,7 @@ const ModelDecomposer = () => {
 
         case 'circular': {
           const angle = (index / total) * Math.PI * 2;
-          dir = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0); // 绕 X 轴旋转
+          dir = new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0); // 绕 Y 轴旋转
           break;
         }
 

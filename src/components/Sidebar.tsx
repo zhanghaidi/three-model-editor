@@ -4,10 +4,10 @@ import { Tabs } from 'antd';
 import { useSidebarResize } from '@/hooks/useSidebarResize';
 
 import SidebarLabel from './SidebarLabel';
+import SidebarLight from './SidebarLight';
 import SidebarProject from './SidebarProject';
 import SidebarProperties from './SidebarProperties';
 import SidebarScene from './SidebarScene';
-import SidebarTags from './SidebarTags';
 
 export default function Sidebar() {
   const { sidebarWidth, startResizing } = useSidebarResize(); // 🎯 使用 Hook
@@ -59,7 +59,7 @@ export default function Sidebar() {
             ),
             children: (
               <div>
-                <SidebarTags />
+                <SidebarLight />
               </div>
             ),
           },
